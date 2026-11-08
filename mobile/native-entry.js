@@ -24,7 +24,7 @@ window.ValeNative = {
   async exportJSON(data) {
     const saved = await Filesystem.writeFile({path:'Vale_Study_progress.json', data,
       directory:Directory.Cache, encoding:Encoding.UTF8});
-    await Share.share({title:'Vale Study', files:[saved.uri], dialogTitle:'Vale Study'});
+    await Share.share({title:'Valja Study', files:[saved.uri], dialogTitle:'Valja Study'});
   }
 };
 if (window.VALE_NATIVE) {

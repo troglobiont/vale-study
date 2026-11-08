@@ -1,6 +1,7 @@
 (() => {
 'use strict';
 const L={
+ wordsTab:['Слова','Речи','Words'],quizTab:['Тест на слова','Тест речи','Word test'],grammarTab:['Грамматика','Граматика','Grammar'],recentTest:['Проверить эти слова','Провери ове речи','Test these words'],englishSections:['Разделы английского','Делови енглеског','English sections'],
  title:['Английский','Енглески','English'],dictionary:['Словарник','Речник','Vocabulary'],
  hero:['Понемногу. И надолго.','Помало. И задуго.','A few words. Every day.'],
  intro:['Слова из Smiles 4: послушай, вспомни перевод и возвращайся к повторению.','Речи из Smiles 4: послушај, сети се превода и враћај се понављању.','Words from Smiles 4: listen, recall the meaning and come back to review.'],
@@ -24,7 +25,7 @@ const L={
  pronunciation:['Озвучка слов учебника загружается по нажатию. Нужен интернет. Это отдельные подготовленные аудиофайлы.','Аудио речи из уџбеника учитава се на додир. Потребан је интернет. То су посебно припремљене аудио-датотеке.','Textbook word audio loads when tapped. Internet is required. These are separately prepared audio files.'],
  voiceError:['Озвучка своего слова недоступна. Добавь к нему прямую ссылку на аудиофайл.','Аудио твоје речи није доступан. Додај директну везу до аудио-датотеке.','Audio for your own word is unavailable. Add a direct audio file link.'],
  speaking:['Произношу…','Изговарам…','Speaking…'],sources:['Материалы курса','Материјали курса','Course materials'],textbook:['Учебник','Уџбеник','Textbook'],workbook:['Рабочая тетрадь','Радна свеска','Workbook'],demo:['Электронный демоурок','Електронски демо-час','Digital demo lesson'],
- scope:['В этой версии — словарник и аудио. Полные упражнения курса пока не перенесены.','Ова верзија садржи речник и аудио. Све вежбе курса још нису пренете.','This version includes vocabulary and audio. The full course exercises have not been imported yet.'],
+ scope:['В приложении — словарник, тесты на слова, аудио и первые задания по грамматике. Полный курс ещё не перенесён.','Апликација садржи речник, тестове речи, аудио и прве граматичке задатке. Цео курс још није пренет.','The app includes vocabulary, word tests, audio and initial grammar exercises. The full course is not imported yet.'],
  local:['Слова и интервалы сохраняются на этом устройстве.','Речи и размаци се чувају на овом уређају.','Words and review intervals are saved on this device.'],
  englishWord:['Слово или выражение по-английски','Реч или израз на енглеском','English word or phrase'],russian:['Перевод на русский','Превод на руски','Russian meaning'],serbian:['Перевод на сербский (необязательно)','Превод на српски (није обавезно)','Serbian meaning (optional)'],
  audioURL:['Ссылка на аудиофайл HTTPS (необязательно)','HTTPS веза до аудио-датотеке (није обавезно)','HTTPS audio file URL (optional)'],urlHelp:['Нужна прямая ссылка на запись, например MP3. Если ссылки нет, слово прочитает голос устройства.','Потребна је директна веза до снимка, на пример MP3. Без везе реч изговара глас уређаја.','Use a direct audio file link, such as MP3. Without a link, the device voice reads the word.'],
@@ -43,6 +44,8 @@ function create(ctx){
  const title=u=>u.title[lang()]||u.title.ru;
  const state=()=>ctx.getState();
  const words=()=>[...D.words,...state().customWords];
+ let section='words';
+ const practice=window.ValePracticeUI?.create({frame,lang,words,getState:state,saveState:commit,stopMedia,audioStatus});
  const word=id=>words().find(w=>w.id===id);
  const topic=id=>D.topics.find(u=>u.id===id);
  const hasSession=()=>state().session&&state().session.index<state().session.ids.length;
@@ -65,7 +68,7 @@ function create(ctx){
   if(audio){audio.onwaiting=audio.onstalled=audio.onplaying=audio.onpause=audio.onended=audio.onerror=null;audio.pause();audio.removeAttribute('src');audio.load();audio=null;}
   if(window.speechSynthesis)window.speechSynthesis.cancel();
  }
- function frame(content){ctx.shell(content,'english');document.title='Vale Study · '+t('title');}
+ function frame(content){const links=[['words','#english','wordsTab'],['quiz','#english/quiz','quizTab'],['grammar','#english/grammar','grammarTab']];ctx.shell(`<nav class="subject-tabs english-sections" aria-label="${t('englishSections')}">${links.map(([id,href,label])=>`<a href="${href}" class="${section===id?'active':''}" ${section===id?'aria-current="page"':''}>${t(label)}</a>`).join('')}</nav>`+content,'english');document.title='Valja Study · '+t('title');}
  function crumb(label){return `<div class="breadcrumb"><a href="#english">${t('home')}</a><span>›</span><span>${esc(label)}</span></div>`;}
  function studyButton(unit='all'){
   const resume=hasSession();const n=C.queue(words(),state(),unit).length;
@@ -86,20 +89,21 @@ function create(ctx){
  }
  function vocabulary(unit){
   scope=unit;const u=topic(unit),label=u?title(u):t(unit==='custom'?'own':'all');const list=words().filter(w=>C.inScope(w,unit));
-  frame(`${crumb(label)}<div class="overview-row"><div><div class="eyebrow">Smiles 4 · ${t('dictionary')}</div><h1 class="page-title">${esc(label)}</h1>${u?`<p class="helper">${t('page',{p:u.pages})} · ${esc(u.grammar)}</p>`:''}</div>${studyButton(unit)}</div>${metrics(list)}<div class="english-study-layout"><section class="panel">${searchBox()}${!list.length?`<p>${t('emptyOwn')}</p>`:''}${listHTML(list)}${audioStatus(true)}<p class="small-note">${t('pronunciation')}</p></section>${u?audioPanel(unit):customForm()}</div>`);
+  frame(`${crumb(label)}<div class="overview-row"><div><div class="eyebrow">Smiles 4 · ${t('dictionary')}</div><h1 class="page-title">${esc(label)}</h1>${u?`<p class="helper">${t('page',{p:u.pages})} · ${esc(u.grammar)}</p>`:''}</div><div class="chapter-controls">${studyButton(unit)}<a class="secondary" href="#english/quiz/${esc(unit)}">${t('quizTab')} →</a>${['2','3'].includes(unit)?`<a class="quiet" href="#english/grammar/${unit==='2'?'present-continuous':'present-simple'}">${t('grammarTab')}</a>`:''}</div></div>${metrics(list)}<div class="english-study-layout"><section class="panel">${searchBox()}${!list.length?`<p>${t('emptyOwn')}</p>`:''}${listHTML(list)}${audioStatus(true)}<p class="small-note">${t('pronunciation')}</p></section>${u?audioPanel(unit):customForm()}</div>`);
  }
  function customForm(){return `<section class="panel"><h2>${t('add')}</h2><form id="english-add-form" class="english-add-form"><label>${t('englishWord')}<input name="en" lang="en" required maxlength="80" autocomplete="off" autocapitalize="none" spellcheck="false"></label><label>${t('russian')}<input name="ru" lang="ru" required maxlength="160" autocomplete="off"></label><label>${t('serbian')}<input name="sr" lang="sr-Cyrl" maxlength="160" autocomplete="off"></label><label>${t('audioURL')}<input name="audio" type="url" placeholder="https://…/audio.mp3" maxlength="1500" inputmode="url" autocapitalize="none"></label><p class="small-note">${t('urlHelp')}</p><p id="english-form-status" role="status"></p><button class="secondary" type="submit">＋ ${t('save')}</button></form></section>`;}
  function nextDate(list){const dates=list.map(w=>state().records[w.id]?.due).filter(n=>n>Date.now());return dates.length?`<p class="helper">${t('return',{date:date(Math.min(...dates))})}</p>`:'';}
  function review(){
   const s=state().session;
   if(!s){frame(`${crumb(t('dictionary'))}<section class="panel english-review"><h1>${t('todayDone')}</h1><p>${t('noDue')}</p>${nextDate(words())}<a class="secondary" href="#english">${t('home')}</a></section>`);return;}
-  if(s.index>=s.ids.length){frame(`${crumb(t('dictionary'))}<section class="panel english-review"><div class="english-complete" aria-hidden="true">✓</div><h1>${t('finished')}</h1><p>${t('finishedText',{n:s.ids.length})}</p>${nextDate(s.ids.map(word).filter(Boolean))}<div class="hero-buttons">${studyButton(s.scope)}<a class="secondary" href="#english">${t('home')}</a></div></section>`);return;}
+  if(s.index>=s.ids.length){frame(`${crumb(t('dictionary'))}<section class="panel english-review"><div class="english-complete" aria-hidden="true">✓</div><h1>${t('finished')}</h1><p>${t('finishedText',{n:s.ids.length})}</p>${nextDate(s.ids.map(word).filter(Boolean))}<div class="hero-buttons">${studyButton(s.scope)}<a class="secondary" href="#english/quiz/recent">${t('recentTest')} →</a><a class="secondary" href="#english">${t('home')}</a></div></section>`);return;}
   const w=word(s.ids[s.index]);if(!w){if(commit({...state(),session:null}))home();return;}
   const r=state().records[w.id],nextStage=Math.min(5,(r?.stage||0)+1);
   frame(`<div class="english-review-head"><a class="quiet" href="#english">← ${t('pause')}</a><span>${t('card',{n:s.index+1,total:s.ids.length})}</span></div><div class="progress-track"><div class="progress-fill" style="width:${100*s.index/s.ids.length}%"></div></div><section class="panel english-review"><div class="eyebrow">${t('recall')}</div><h1 class="english-flashword" lang="en">${esc(w.en)}</h1><div class="english-sound-actions"><button class="secondary" data-action="english-say" data-id="${esc(w.id)}">▶ ${t('listen')}</button><button class="quiet" data-action="english-say" data-id="${esc(w.id)}" data-slow="true">${t('slow')}</button></div>${audioStatus(true)}${s.revealed?`<div class="english-meaning"><b lang="ru">${esc(w.ru)}</b>${w.sr?`<span lang="sr-Cyrl">${esc(w.sr)}</span>`:''}</div><div class="english-rating">${[['again','tenMinutes'],['hard','tomorrow'],['know','days']].map(([rating,key])=>`<button class="${rating==='know'?'primary':'secondary'}" data-action="english-rate" data-rating="${rating}"><b>${t(rating)}</b><small>${t(key,{n:C.INTERVALS[nextStage-1]})}</small></button>`).join('')}</div>`:`<div class="english-reveal"><p>${t('method')}</p><button class="primary" data-action="english-reveal">${t('reveal')}</button></div>`}<p class="small-note">${w.page?'Smiles 4 · '+t('page',{p:w.page}):t('own')}</p></section><p class="small-note english-pronunciation">${t('pronunciation')}</p>`);
  }
  function render(parts=[]){
-  stopMedia();currentTrack=null;
+  stopMedia();currentTrack=null;section=parts[0]==='quiz'?'quiz':parts[0]==='grammar'?'grammar':'words';
+  if(['quiz','grammar'].includes(parts[0])&&practice){practice.render(parts);return;}
   if(parts[0]==='review')review();else if(parts[0]==='unit'&&topic(parts[1]))vocabulary(parts[1]);else if(parts[0]==='words')vocabulary('all');else if(parts[0]==='custom')vocabulary('custom');else if(parts[0]==='audio'){frame(`${crumb(t('audio'))}${audioPanel('all')}`);}else home();
  }
  function audioFailure(token=mediaToken){if(token!==mediaToken)return;clearTimeout(audioTimer);mediaToken++;if(audio){audio.onwaiting=audio.onstalled=audio.onplaying=audio.onpause=audio.onended=audio.onerror=null;audio.pause();}status(t('audioError'),true);}
@@ -131,7 +135,7 @@ function create(ctx){
   window.speechSynthesis.speak(u);
  }
  function handleClick(el){
-  const action=el.dataset.action;if(!action?.startsWith('english-'))return false;
+  const action=el.dataset.action;if(!action?.startsWith('english-'))return false;if(practice?.handleClick(el))return true;
   if(action==='english-start'){
    if(!hasSession()){
     const unit=el.dataset.unit||'all',ids=C.queue(words(),state(),unit);
@@ -153,6 +157,7 @@ function create(ctx){
   return true;
  }
  function handleSubmit(form){
+  if(practice?.handleSubmit(form))return;if(form.id!=='english-add-form')return;
   const values=new FormData(form),en=String(values.get('en')||'').trim(),ru=String(values.get('ru')||'').trim(),sr=String(values.get('sr')||'').trim(),raw=String(values.get('audio')||'').trim(),url=C.audioURL(raw);
   const feedback=document.querySelector('#english-form-status'),key=s=>s.toLocaleLowerCase().replace(/\s+/g,' ').trim();
   if(!en||en.length>80||!ru||ru.length>160||sr.length>160||url===null){feedback.textContent=t('invalid');return;}

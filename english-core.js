@@ -1,7 +1,7 @@
-(function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.ValeEnglishCore=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
+(function(root,factory){const api=factory(typeof module==='object'&&module.exports?require('./english-practice.js'):root.ValePractice);if(typeof module==='object'&&module.exports)module.exports=api;else root.ValeEnglishCore=api;})(typeof globalThis!=='undefined'?globalThis:this,function(P){
 'use strict';
 const DAY=86400000,INTERVALS=[1,3,7,14,30];
-const fresh=()=>({schemaVersion:1,records:{},customWords:[],session:null});
+const fresh=()=>({schemaVersion:1,records:{},customWords:[],session:null,...P.fresh()});
 function audioURL(raw){
  if(!String(raw||'').trim())return '';
  try{const u=new URL(String(raw).trim());return u.protocol==='https:'&&!u.username&&!u.password?u.href:null;}catch{return null;}
@@ -17,6 +17,7 @@ function normalise(input){
  if(Array.isArray(input.customWords))out.customWords=input.customWords.filter(w=>validWord(w)&&!seen.has(w.id)&&seen.add(w.id)).slice(0,300).map(w=>({...w,unit:'custom',audio:audioURL(w.audio)}));
  const s=input.session;
  if(s&&Array.isArray(s.ids)&&s.ids.length<=12&&s.ids.every(id=>typeof id==='string')&&new Set(s.ids).size===s.ids.length&&Number.isInteger(s.index)&&s.index>=0&&s.index<=s.ids.length)out.session={ids:s.ids,index:s.index,revealed:s.revealed===true,scope:typeof s.scope==='string'?s.scope:'all'};
+ Object.assign(out,P.normalise(input));
  return out;
 }
 function inScope(w,scope){return scope==='all'||String(w.unit)===String(scope);}

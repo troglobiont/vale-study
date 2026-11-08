@@ -7,7 +7,7 @@ const root = path.resolve(mobile, '..');
 const out = path.join(mobile, 'www');
 await rm(out,{recursive:true,force:true});
 await mkdir(out,{recursive:true});
-const files=['index.html','style.css','app.js','avatar.js','english-data.js','english-core.js','english.js','updates.js','core.js','book.js','book.json',
+const files=['index.html','style.css','app.js','avatar.js','english-data.js','english-practice.js','english-practice-ui.js','english-core.js','english.js','updates.js','core.js','book.js','book.json',
   'icon.svg','icon-180.png','icon-192.png','icon-512.png','assets'];
 for(const file of files) await cp(path.join(root,file),path.join(out,file),{recursive:true});
 let html=await readFile(path.join(out,'index.html'),'utf8');
