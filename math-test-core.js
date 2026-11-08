@@ -2,16 +2,22 @@
 'use strict';
 const CHAPTERS=['small','large','rectangle','square','practice','check'];
 const T=(ru,sr,en)=>({ru,sr,en});
+const LEVELS=[
+ {id:1,title:T('Старт','Почетак','Start'),description:T('Небольшие числа и один понятный шаг.','Мали бројеви и један јасан корак.','Small numbers and one clear step.')},
+ {id:2,title:T('Уверенный шаг','Сигуран корак','Steady steps'),description:T('Обратные задачи и сочетание двух знакомых действий.','Обрнути задаци и два позната поступка.','Reverse problems and two familiar operations.')},
+ {id:3,title:T('Вызов','Изазов','Challenge'),description:T('Несколько действий, разные единицы и задачи на применение.','Више поступака, различите јединице и примена.','Several operations, mixed units and applications.')}
+];
+const emptyJourney=()=>Object.fromEntries(CHAPTERS.map(ch=>[ch,{cleared:[],best:{}}]));
 const UNITS={'mm²':T('мм²','mm²','mm²'),'cm²':T('см²','cm²','cm²'),'dm²':T('дм²','dm²','dm²'),'m²':T('м²','m²','m²'),a:T('а','a','a'),ha:T('га','ha','ha'),'km²':T('км²','km²','km²'),din:T('дин.','дин.','din')};
 const SCALE={'mm²':1,'cm²':100,'dm²':10000,'m²':1000000,a:100000000,ha:10000000000,'km²':1000000000000};
 const totals=()=>({attempts:0,correct:0,total:0,corrected:0,last:null,byChapter:{}});
-const fresh=()=>({schemaVersion:1,session:null,totals:totals()});
+const fresh=()=>({schemaVersion:1,session:null,totals:totals(),journey:emptyJourney()});
 const clone=x=>JSON.parse(JSON.stringify(x));
 function random(seed){let n=seed>>>0;return ()=>{n+=0x6d2b79f5;let t=n;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return ((t^t>>>14)>>>0)/4294967296;};}
 function shuffle(list,rng){const out=[...list];for(let i=out.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[out[i],out[j]]=[out[j],out[i]];}return out;}
 const question=(prompt,answer,unit,model,calculation)=>({type:'numeric',prompt,answer:String(answer),unit,model,calculation});
-function generated(chapter,slot,rng){
- const n=(a,b)=>a+Math.floor(rng()*(b-a+1)),math=s=>T(s,s,s);
+function generated(chapter,slot,rng,level=3){
+ const n=(a,b)=>a+Math.floor(rng()*((level===1?Math.min(b,a+3):level===2?Math.min(b,a+6):b)-a+1));
  const convert=(amount,from,to)=>{const answer=amount*SCALE[from]/SCALE[to];return question(T(`${amount} ${UNITS[from].ru} = ? ${UNITS[to].ru}`,`${amount} ${UNITS[from].sr} = ? ${UNITS[to].sr}`,`${amount} ${from} = ? ${to}`),answer,to,{kind:'convert',amount,from,to},SCALE[from]>=SCALE[to]?`${amount} × ${SCALE[from]/SCALE[to]} = ${answer}`:`${amount} ÷ ${SCALE[to]/SCALE[from]} = ${answer}`);};
  const combine=(a,from,b,other,to,subtract=false)=>{const answer=(a*SCALE[from]+(subtract?-1:1)*b*SCALE[other])/SCALE[to],sign=subtract?'−':'+';return question(T(`${a} ${UNITS[from].ru} ${sign} ${b} ${UNITS[other].ru} = ? ${UNITS[to].ru}`,`${a} ${UNITS[from].sr} ${sign} ${b} ${UNITS[other].sr} = ? ${UNITS[to].sr}`,`${a} ${from} ${sign} ${b} ${other} = ? ${to}`),answer,to,{kind:'combine',a,from,b,other,to,subtract},`${a} × ${SCALE[from]/SCALE[to]} ${sign} ${b} × ${SCALE[other]/SCALE[to]} = ${answer}`);};
  const rect=(a,b)=>question(T(`Прямоугольник имеет стороны ${a} см и ${b} см. Найди площадь.`,`Правоугаоник има странице ${a} cm и ${b} cm. Израчунај површину.`,`A rectangle has sides ${a} cm and ${b} cm. Find its area.`),a*b,'cm²',{kind:'rectangle',a,b},`${a} × ${b} = ${a*b}`);
@@ -86,13 +92,48 @@ function generated(chapter,slot,rng){
  }
  return q;
 }
-function generate(chapter,size=8,seed=Date.now()){
- if(!CHAPTERS.includes(chapter)||![5,8,10].includes(size))throw Error('Invalid test selection');
- const rng=random(seed),slots=Array.from({length:size},(_,i)=>Math.round(i*9/(size-1)));
- const seen=new Set();return slots.map((slot,i)=>{let q;do{q=generated(chapter,slot,rng);}while(seen.has(q.prompt.en));seen.add(q.prompt.en);return {...q,id:'q'+i,difficulty:i>=size-2?3:i>=Math.ceil(size/3)?2:1};});
+const POOLS={
+ small:{1:[0,1,2,3],2:[0,2,6,7],3:[4,5,8,9]},
+ large:{1:[0,1,2,3],2:[0,2,6,7],3:[4,5,8,9]},
+ rectangle:{1:[0],2:[2,1,3],3:[4,5,6,7,8,9]},
+ square:{2:[0,1,2,3,4],3:[3,4,5,6,7,8,9]},
+ practice:{2:[0,1,2,3,5,6],3:[4,5,6,7,8,9]}
+};
+function stageQuestion(chapter,level,index,rng){
+ if(chapter==='check')return stageQuestion(['small','large','rectangle','square','practice'][index%5],level,index,rng);
+ if(chapter==='practice'&&level===1)return stageQuestion(['rectangle','square','large'][index%3],level,index,rng);
+ if(chapter==='square'&&level===1){
+  const a=2+Math.floor(rng()*9),unit=['cm²','dm²','m²'][Math.floor(rng()*3)],side={ru:{'cm²':'см','dm²':'дм','m²':'м'},sr:{'cm²':'cm','dm²':'dm','m²':'m'},en:{'cm²':'cm','dm²':'dm','m²':'m'}};
+  return {...question(T(`Сторона квадрата — ${a} ${side.ru[unit]}. Найди площадь.`,`Страница квадрата је ${a} ${side.sr[unit]}. Израчунај површину.`,`A square has a side of ${a} ${side.en[unit]}. Find its area.`),a*a,unit,{kind:'square',a},`${a} × ${a} = ${a*a}`),template:'square-start'};
+ }
+ const pool=POOLS[chapter][level],slot=pool[index%pool.length],q=generated(chapter,slot,rng,level);
+ if(q.type==='choice'){q.type='numeric';q.answer=q.numericAnswer;delete q.options;delete q.numericAnswer;}return q;
 }
-function begin(state,chapter,size=8,seed=Date.now(),now=Date.now()){
- const questions=generate(chapter,size,seed),session={id:now.toString(36)+'-'+(seed>>>0).toString(36),chapter,size,index:0,seed:seed>>>0,started:now,questions,drafts:questions.map(()=>''),first:null,corrections:{}};
+function generate(chapter,size=8,seed=Date.now(),level=1){
+ if(!CHAPTERS.includes(chapter)||![5,8,10].includes(size)||![1,2,3].includes(level))throw Error('Invalid test selection');
+ const rng=random(seed),seen=new Set();return Array.from({length:size},(_,i)=>{
+  let q,tries=0;do{q=stageQuestion(chapter,level,i,rng);if(++tries>1000)throw Error('Question pool exhausted');}while(seen.has(q.prompt.en));seen.add(q.prompt.en);
+  if(i%3===1){const answer=Number(q.answer),values=shuffle([...new Set([answer,answer*10,Math.max(0,answer-1),answer+10,answer+1])].slice(0,4),rng);q={...q,type:'choice',options:values.map((v,j)=>({id:String(j),value:String(v)})),answer:String(values.indexOf(answer)),numericAnswer:String(answer)};}
+  return {...q,id:'q'+i,difficulty:level};
+ });
+}
+function levelProgress(state,chapter){
+ const data=state.journey?.[chapter]||{cleared:[],best:{}},cleared=[1,2,3].filter(l=>data.cleared.includes(l));
+ let unlocked=1;while(unlocked<3&&cleared.includes(unlocked))unlocked++;
+ return {cleared,best:data.best,unlocked,recommended:[1,2,3].find(l=>!cleared.includes(l))||3};
+}
+function collection(state){return CHAPTERS.reduce((n,ch)=>n+levelProgress(state,ch).cleared.length,0);}
+function resolved(session){return session?.first?session.first.correct.filter((yes,i)=>yes||session.corrections[i]?.correct).length:0;}
+function reward(state){
+ const s=state.session;if(!s?.first||![1,2,3].includes(s.level))return state;
+ const old=state.journey?.[s.chapter]||{cleared:[],best:{}},previous=old.best[s.level],best=previous&&previous.score*s.size>=s.first.score*previous.total?previous:{score:s.first.score,total:s.size};
+ const complete=resolved(s)===s.size,eligible=s.level<=levelProgress(state,s.chapter).unlocked,newCrystal=complete&&eligible&&!old.cleared.includes(s.level);
+ const cleared=newCrystal?[...old.cleared,s.level].sort():[...old.cleared];
+ return {...state,journey:{...emptyJourney(),...state.journey,[s.chapter]:{cleared,best:{...old.best,[s.level]:best}}},session:{...s,reward:complete&&eligible?(s.reward||{level:s.level,newCrystal}):null}};
+}
+function begin(state,chapter,size=8,seed=Date.now(),now=Date.now(),level=1){
+ if(level>levelProgress(state,chapter).unlocked)return null;
+ const questions=generate(chapter,size,seed,level),session={id:now.toString(36)+'-'+(seed>>>0).toString(36),chapter,size,level,index:0,seed:seed>>>0,started:now,questions,drafts:questions.map(()=>''),first:null,corrections:{},reward:null};
  return {...state,session};
 }
 function saveAnswer(state,sessionId,index,raw){
@@ -106,26 +147,29 @@ function grade(state,sessionId,parse,now=Date.now()){
  const s=state.session;if(!s||s.id!==sessionId||s.first)return null;
  if(validate(state,parse).length)return null;
  const answers=s.questions.map((q,i)=>value(q,s.drafts[i],parse).value),correct=s.questions.map((q,i)=>q.answer===answers[i]),score=correct.filter(Boolean).length;
- const first={answers,correct,score,total:s.size,at:now},last={sessionId:s.id,chapter:s.chapter,score,total:s.size,at:now},old=state.totals;
- return {...state,session:{...s,index:s.size,first},totals:{...old,attempts:old.attempts+1,correct:old.correct+score,total:old.total+s.size,last,byChapter:{...old.byChapter,[s.chapter]:last}}};
+ const first={answers,correct,score,total:s.size,at:now},last={sessionId:s.id,chapter:s.chapter,score,total:s.size,at:now,...(s.level?{level:s.level}:{})},old=state.totals;
+ return reward({...state,session:{...s,index:s.size,first},totals:{...old,attempts:old.attempts+1,correct:old.correct+score,total:old.total+s.size,last,byChapter:{...old.byChapter,[s.chapter]:last}}});
 }
 function correctAnswer(state,sessionId,index,raw,parse,now=Date.now()){
  const s=state.session,q=s?.questions[index];if(!s||s.id!==sessionId||!s.first||!q||s.first.correct[index]||s.corrections[index]?.correct)return null;
  const checked=value(q,String(raw??''),parse);if(!checked.ok)return {valid:false,error:checked.error};
  const correct=checked.value===q.answer,corrections={...s.corrections,[index]:{answer:checked.value,correct,at:now}};
- return {valid:true,correct,state:{...state,session:{...s,corrections},totals:{...state.totals,corrected:state.totals.corrected+(correct?1:0)}}};
+ return {valid:true,correct,state:reward({...state,session:{...s,corrections},totals:{...state.totals,corrected:state.totals.corrected+(correct?1:0)}})};
 }
 function validQuestion(q){return q&&/^q\d+$/.test(q.id)&&['numeric','choice'].includes(q.type)&&q.prompt&&['ru','sr','en'].every(l=>typeof q.prompt[l]==='string'&&q.prompt[l].length<600)&&/^\d+$/.test(q.answer)&&typeof q.calculation==='string'&&q.calculation.length<250&&typeof q.unit==='string'&&(q.unit===''||Object.hasOwn(UNITS,q.unit))&&(q.type!=='choice'||Array.isArray(q.options)&&q.options.length===4&&new Set(q.options.map(o=>o.value)).size===4&&q.options.every((o,i)=>o.id===String(i)&&/^\d+$/.test(o.value))&&Number(q.answer)<4);}
 function validSummary(r){return r&&typeof r.sessionId==='string'&&CHAPTERS.includes(r.chapter)&&[5,8,10].includes(r.total)&&Number.isInteger(r.score)&&r.score>=0&&r.score<=r.total&&Number.isFinite(r.at)&&r.at>=0;}
 function normalise(input){
  const out=fresh();if(!input||input.schemaVersion!==1)return out;
+ for(const chapter of CHAPTERS){const old=input.journey?.[chapter];if(!old)continue;const cleared=[];for(const level of [1,2,3]){if(Array.isArray(old.cleared)&&old.cleared.includes(level)&&cleared.length===level-1)cleared.push(level);else break;}const best={};for(const level of [1,2,3]){const b=old.best?.[level];if(b&&[5,8,10].includes(b.total)&&Number.isInteger(b.score)&&b.score>=0&&b.score<=b.total)best[level]={score:b.score,total:b.total};}out.journey[chapter]={cleared,best};}
  const t=input.totals;if(t&&['attempts','correct','total','corrected'].every(k=>Number.isSafeInteger(t[k])&&t[k]>=0)&&t.correct<=t.total&&t.corrected<=t.total-t.correct){const byChapter={};for(const ch of CHAPTERS)if(validSummary(t.byChapter?.[ch]))byChapter[ch]=clone(t.byChapter[ch]);out.totals={attempts:t.attempts,correct:t.correct,total:t.total,corrected:t.corrected,last:validSummary(t.last)?clone(t.last):null,byChapter};}
  const s=input.session;
  if(!s||typeof s.id!=='string'||!/^[a-z0-9-]{1,80}$/.test(s.id)||!CHAPTERS.includes(s.chapter)||![5,8,10].includes(s.size)||!Number.isInteger(s.index)||s.index<0||s.index>s.size||!Number.isInteger(s.seed)||s.seed<0||!Number.isFinite(s.started)||s.started<0||!Array.isArray(s.questions)||s.questions.length!==s.size||!s.questions.every(validQuestion)||new Set(s.questions.map(q=>q.id)).size!==s.size||!Array.isArray(s.drafts)||s.drafts.length!==s.size||!s.drafts.every(x=>typeof x==='string'&&x.length<=65))return out;
  const first=s.first;
  if(first&&(!Array.isArray(first.answers)||first.answers.length!==s.size||!first.answers.every(x=>typeof x==='string'&&/^\d+$/.test(x))||!Array.isArray(first.correct)||first.correct.length!==s.size||!first.correct.every((v,i)=>typeof v==='boolean'&&v===(first.answers[i]===s.questions[i].answer))||first.score!==first.correct.filter(Boolean).length||first.total!==s.size||!Number.isFinite(first.at)||first.at<0))return out;
  const corrections={};if(first)for(let i=0;i<s.size;i++){const c=s.corrections?.[i];if(!first.correct[i]&&c&&typeof c.answer==='string'&&/^\d+$/.test(c.answer)&&c.correct===(c.answer===s.questions[i].answer)&&Number.isFinite(c.at)&&c.at>=0)corrections[i]={...c};}
- out.session={...clone(s),first:first?clone(first):null,corrections};return out;
+ const level=[1,2,3].includes(s.level)?s.level:null;
+ const earned=level&&first&&first.correct.every((yes,i)=>yes||corrections[i]?.correct);
+ out.session={...clone(s),level,first:first?clone(first):null,corrections,reward:earned&&s.reward?.level===level?{level,newCrystal:s.reward.newCrystal===true}:null};return out;
 }
-return {CHAPTERS,UNITS,SCALE,fresh,generate,begin,saveAnswer,position,validate,grade,correctAnswer,normalise,validQuestion};
+return {CHAPTERS,LEVELS,UNITS,SCALE,fresh,generate,begin,saveAnswer,position,validate,grade,correctAnswer,normalise,validQuestion,levelProgress,collection,resolved};
 });

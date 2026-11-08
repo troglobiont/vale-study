@@ -1,7 +1,7 @@
 (() => {
 'use strict';
 const BOOK=window.VALE_BOOK, CORE=window.ValeCore, AVATAR=window.ValeAvatar, STORE='vale-study-book-v02';
-const APP_VERSION='0.10.0';
+const APP_VERSION='0.11.0';
 const NATIVE=window.VALE_NATIVE===true;
 const ANDROID_APK='https://github.com/troglobiont/vale-study/releases/latest/download/Vale-Study-Android.apk';
 const LANGS=['ru','sr','en'];
@@ -224,7 +224,7 @@ function topicContents(topic){
  const ids=topic.chapters.flatMap(ch=>BOOK.tasks.filter(q=>q.chapter===ch.id).map(q=>q.id)),c=counts(ids),total=ids.filter(id=>taskById(id).type!=='measurement').length;
  return `<section class="math-contents" data-math-topic="${topic.id}"><div class="topic-heading"><div><div class="eyebrow">${t('mathematics')}</div><h2>${t(topic.title)}</h2><p class="helper">${t(topic.description)}</p></div><span class="helper">${t('mathProgress',{n:c.done,total})}</span></div><div class="contents-grid">${topic.chapters.map((ch,i)=>{const qs=BOOK.tasks.filter(q=>q.chapter===ch.id),done=counts(qs.map(q=>q.id)).done,total=qs.filter(q=>q.type!=='measurement').length;return `<article class="contents-section"><div class="contents-section-head"><span class="chapter-icon ${ch.color}" aria-hidden="true">${ch.icon}</span><span class="chapter-number">${String(i+1).padStart(2,'0')}</span></div><h3><a href="#chapter/${ch.id}">${esc(tx(ch.title))}</a></h3><p class="helper">${t('pages',{p:ch.pages})} · ${t('mathProgress',{n:done,total})}</p><div class="contents-actions"><a class="secondary" href="#chapter/${ch.id}">${t('exercises')} →</a><a class="quiet" href="#chapter/${ch.id}/rules">${t('rules')}</a><a class="quiet" href="#chapter/${ch.id}/test">${t('mathTest')}</a></div></article>`;}).join('')}</div></section>`;
 }
-function home(){shell(`<div class="subject-heading"><h1 class="page-title">${t('mathematics')}</h1><p class="intro">${t('mathIntro')}</p></div>${resumePanel()}${mathTest?.resumePanel()||''}${MATH_TOPICS.map(topicContents).join('')}<p class="small-note home-note">${t('sourceNote')}</p>`);}
+function home(){shell(`<div class="subject-heading"><h1 class="page-title">${t('mathematics')}</h1><p class="intro">${t('mathIntro')}</p></div>${resumePanel()}${mathTest?.resumePanel()||''}${mathTest?.collectionSummary()||''}${MATH_TOPICS.map(topicContents).join('')}<p class="small-note home-note">${t('sourceNote')}</p>`);}
 function areaView(){shell(`${mathNav()}<h1 class="page-title">${t('area')}</h1>${resumePanel()}${mathTest?.resumePanel()||''}${topicContents(MATH_TOPICS[0])}<p class="small-note home-note">${t('sourceNote')}</p>`);}
 function chapterTabs(id,active){return `<nav class="subject-tabs" aria-label="${t('sectionNavigation')}">${[['tasks','#chapter/'+id,'exercises'],['rules','#chapter/'+id+'/rules','rules'],['test','#chapter/'+id+'/test','mathTest']].map(([key,href,label])=>`<a href="${href}" class="${active===key?'active':''}" ${active===key?'aria-current="page"':''}>${t(label)}</a>`).join('')}</nav>`;}
 function chapterView(id,mode='tasks'){
