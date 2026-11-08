@@ -4,6 +4,25 @@
   "webDir": "www",
   "backgroundColor": "#f5f8fc",
   "loggingBehavior": "none",
-  "android": {"allowMixedContent": false, "webContentsDebuggingEnabled": false},
-  "ios": {"contentInset": "automatic"}
+  "android": {
+    "allowMixedContent": false,
+    "webContentsDebuggingEnabled": false
+  },
+  "ios": {
+    "contentInset": "automatic"
+  },
+  "plugins": {
+    "CapacitorUpdater": {
+      "autoUpdate": "off",
+      "statsUrl": "",
+      "updateUrl": "",
+      "channelUrl": "",
+      "appReadyTimeout": 15000,
+      "responseTimeout": 20,
+      "autoDeleteFailed": true,
+      "autoDeletePrevious": true,
+      "keepUrlPathAfterReload": true,
+      "disableJSLogging": true
+    }
+  }
 }
