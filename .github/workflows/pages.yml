@@ -2,7 +2,7 @@ name: Publish Vale Study
 on:
   push:
     branches: [main]
-    paths: ['*.js', '*.css', '*.json', 'index.html', 'manifest.webmanifest', 'icon*', 'assets/**', '.github/workflows/pages.yml']
+    paths: ['*.js', '*.css', '*.json', 'index.html', 'manifest.webmanifest', 'icon*', 'assets/**', 'audio/**', '.github/workflows/pages.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -25,6 +25,7 @@ jobs:
           mkdir dist
           cp index.html style.css app.js core.js avatar.js book.js book.json english-data.js english-core.js english.js updates.js version.json sw.js manifest.webmanifest icon.svg icon-180.png icon-192.png icon-512.png .nojekyll dist/
           cp -R assets dist/assets
+          cp -R audio dist/audio
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

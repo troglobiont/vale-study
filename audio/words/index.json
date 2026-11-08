@@ -1,0 +1,1562 @@
+[
+  {
+    "id": "u1-01",
+    "en": "aunt",
+    "path": "audio/words/u1-01.m4a",
+    "bytes": 9657,
+    "duration": 0.5805442176870749,
+    "rms": 2224,
+    "peak": 27435,
+    "sha256": "90c5efcd70e87a7f8918bfbb02d34945b5f88d86afaf63c72755381c2abbc2fc"
+  },
+  {
+    "id": "u1-02",
+    "en": "uncle",
+    "path": "audio/words/u1-02.m4a",
+    "bytes": 9301,
+    "duration": 0.5805442176870749,
+    "rms": 2582,
+    "peak": 26713,
+    "sha256": "49e8ab518b1831e1eb7a740acaf7f6ff4fe3d0e5ba926d708242d1b956af8b2a"
+  },
+  {
+    "id": "u1-03",
+    "en": "cousin",
+    "path": "audio/words/u1-03.m4a",
+    "bytes": 10072,
+    "duration": 0.6734240362811791,
+    "rms": 2017,
+    "peak": 22690,
+    "sha256": "5ebeee21b70c2dd3c4188ca0089fd333d241835cf6da72f7f8cfc8bca9becbef"
+  },
+  {
+    "id": "u1-04",
+    "en": "tall",
+    "path": "audio/words/u1-04.m4a",
+    "bytes": 9085,
+    "duration": 0.5805442176870749,
+    "rms": 2482,
+    "peak": 13829,
+    "sha256": "18815ef1b14c22674724170f99bcbc6fbf2875b07810d6e9bc6f57c4ecf0fa42"
+  },
+  {
+    "id": "u1-05",
+    "en": "short",
+    "path": "audio/words/u1-05.m4a",
+    "bytes": 10041,
+    "duration": 0.626984126984127,
+    "rms": 2437,
+    "peak": 15557,
+    "sha256": "31ca1d1511d12db2efa0a041d9f1f421f385003bf2840659456502941478c857"
+  },
+  {
+    "id": "u1-06",
+    "en": "slim",
+    "path": "audio/words/u1-06.m4a",
+    "bytes": 9655,
+    "duration": 0.626984126984127,
+    "rms": 1833,
+    "peak": 13185,
+    "sha256": "1c8e28b67f200546e90301592326bd4d3d7631e93938a9966efc8ce35f194b2f"
+  },
+  {
+    "id": "u1-07",
+    "en": "long hair",
+    "path": "audio/words/u1-07.m4a",
+    "bytes": 11821,
+    "duration": 0.8824036281179138,
+    "rms": 3041,
+    "peak": 19776,
+    "sha256": "9f7be68245c0e9eaf84944f5b4a50d75893fbbbf74bc75ea0b16e0948b0c4e56"
+  },
+  {
+    "id": "u1-08",
+    "en": "short hair",
+    "path": "audio/words/u1-08.m4a",
+    "bytes": 12295,
+    "duration": 0.9520634920634921,
+    "rms": 3065,
+    "peak": 18548,
+    "sha256": "644932bac5f3d6cf5dee79145413b9ef5913285ef015f9900f98222a46437f94"
+  },
+  {
+    "id": "u1-09",
+    "en": "straight hair",
+    "path": "audio/words/u1-09.m4a",
+    "bytes": 12752,
+    "duration": 0.9985034013605442,
+    "rms": 2877,
+    "peak": 15725,
+    "sha256": "3949a2b5647c3808ace562cf59e2270447be024338cf886f372b7e74e30b4575"
+  },
+  {
+    "id": "u1-10",
+    "en": "curly hair",
+    "path": "audio/words/u1-10.m4a",
+    "bytes": 12331,
+    "duration": 0.9752834467120182,
+    "rms": 3348,
+    "peak": 19039,
+    "sha256": "2177411cc964b46718c6ed53c4c828101824ccfe08aec426f925c212389dc6b0"
+  },
+  {
+    "id": "u1-11",
+    "en": "fair hair",
+    "path": "audio/words/u1-11.m4a",
+    "bytes": 11588,
+    "duration": 0.8591836734693877,
+    "rms": 2983,
+    "peak": 20183,
+    "sha256": "b6658a6cc60dd6604d6c794c0d75830355673c31c7f4066953ac5bb78394e6c6"
+  },
+  {
+    "id": "u1-12",
+    "en": "dark hair",
+    "path": "audio/words/u1-12.m4a",
+    "bytes": 12019,
+    "duration": 0.928843537414966,
+    "rms": 2679,
+    "peak": 25071,
+    "sha256": "c786cd81ff65cd54af77183e1c85bee54c8dc3ad160eea6278b242d8b20dc730"
+  },
+  {
+    "id": "u1-13",
+    "en": "glasses",
+    "path": "audio/words/u1-13.m4a",
+    "bytes": 12216,
+    "duration": 0.90562358276644,
+    "rms": 2597,
+    "peak": 23974,
+    "sha256": "0912b24f55436cf0fefa9edee0151a93873b30864d8f8f11f0c31ebee8147aa1"
+  },
+  {
+    "id": "u1-14",
+    "en": "freckles",
+    "path": "audio/words/u1-14.m4a",
+    "bytes": 12336,
+    "duration": 0.8824036281179138,
+    "rms": 2153,
+    "peak": 18065,
+    "sha256": "284b2d44e9466ddaa6404c016e557adc829d2bf48ec10cfcdb802509ed200d8f"
+  },
+  {
+    "id": "u2-01",
+    "en": "sail",
+    "path": "audio/words/u2-01.m4a",
+    "bytes": 10196,
+    "duration": 0.7198639455782313,
+    "rms": 2177,
+    "peak": 12740,
+    "sha256": "9680e818bd220f0f4e6e93036b30e1bc00be7b8ff2dadcdd2035167fc6b8d061"
+  },
+  {
+    "id": "u2-02",
+    "en": "surf",
+    "path": "audio/words/u2-02.m4a",
+    "bytes": 10822,
+    "duration": 0.7430839002267574,
+    "rms": 1941,
+    "peak": 15493,
+    "sha256": "c3bf48ab13e6e7ad5d5cd2baa0f51bbeaa2eef3c2492dbc69e384a0a505b8962"
+  },
+  {
+    "id": "u2-03",
+    "en": "dive",
+    "path": "audio/words/u2-03.m4a",
+    "bytes": 8799,
+    "duration": 0.5341043083900227,
+    "rms": 2183,
+    "peak": 24975,
+    "sha256": "ffcd93cb140257dfce0c5dced5378ac2c8ad7d1beb5f52b6ea6c500e4604f2e2"
+  },
+  {
+    "id": "u2-04",
+    "en": "waterski",
+    "path": "audio/words/u2-04.m4a",
+    "bytes": 12239,
+    "duration": 0.8591836734693877,
+    "rms": 3238,
+    "peak": 17891,
+    "sha256": "7140df8b08fa8476222911df3a2d26d4500fd57404db55e24f58f8c791afbab1"
+  },
+  {
+    "id": "u2-05",
+    "en": "get wet",
+    "path": "audio/words/u2-05.m4a",
+    "bytes": 11363,
+    "duration": 0.7895238095238095,
+    "rms": 2611,
+    "peak": 21337,
+    "sha256": "2a2fa2588663d05bb8fa204379b4863f12202fe6bb3226c3f309dde0633d3ef5"
+  },
+  {
+    "id": "u2-06",
+    "en": "pool",
+    "path": "audio/words/u2-06.m4a",
+    "bytes": 8669,
+    "duration": 0.5573242630385488,
+    "rms": 2573,
+    "peak": 14862,
+    "sha256": "68f5ffeb2a377ce44e5a1551e937646312d32d4b9f433626a45c4ac8eeb70ae4"
+  },
+  {
+    "id": "u2-07",
+    "en": "skateboard",
+    "path": "audio/words/u2-07.m4a",
+    "bytes": 11807,
+    "duration": 0.8127437641723356,
+    "rms": 2162,
+    "peak": 15570,
+    "sha256": "ff7890b43ef3b63768fda01ea85f05e31918f531bbc416c695e9c46948cdf0ed"
+  },
+  {
+    "id": "u2-08",
+    "en": "do karate",
+    "path": "audio/words/u2-08.m4a",
+    "bytes": 13415,
+    "duration": 1.0449433106575963,
+    "rms": 3292,
+    "peak": 22488,
+    "sha256": "069179bfc6eddf774c8683a6c2665ee75a3e6af68f555368370c4dd3469f8519"
+  },
+  {
+    "id": "u2-09",
+    "en": "hop",
+    "path": "audio/words/u2-09.m4a",
+    "bytes": 9050,
+    "duration": 0.5108843537414965,
+    "rms": 2005,
+    "peak": 17176,
+    "sha256": "3709fe4edabde2693540e53b2fe0e4a74d357ae09b574f158cffc8b019eddd72"
+  },
+  {
+    "id": "u2-10",
+    "en": "skip",
+    "path": "audio/words/u2-10.m4a",
+    "bytes": 8508,
+    "duration": 0.48766439909297055,
+    "rms": 1708,
+    "peak": 12389,
+    "sha256": "a07e262d7149239b8e3c8d978e1dbec722b97c894614154d69266dbf7b8975e8"
+  },
+  {
+    "id": "u2-11",
+    "en": "jog",
+    "path": "audio/words/u2-11.m4a",
+    "bytes": 8426,
+    "duration": 0.46444444444444444,
+    "rms": 2483,
+    "peak": 18632,
+    "sha256": "87427d96955eab6467f1448543d89f86affc5762021b7042dc33fc220c5d4534"
+  },
+  {
+    "id": "u2-12",
+    "en": "have a picnic",
+    "path": "audio/words/u2-12.m4a",
+    "bytes": 13017,
+    "duration": 0.9985034013605442,
+    "rms": 2676,
+    "peak": 26510,
+    "sha256": "63e84bd04fb4236a081ffce02aa9cdb9253999928b6b130d025a8804b9ead210"
+  },
+  {
+    "id": "u2-13",
+    "en": "play the violin",
+    "path": "audio/words/u2-13.m4a",
+    "bytes": 15131,
+    "duration": 1.2771428571428571,
+    "rms": 3414,
+    "peak": 21245,
+    "sha256": "26aabf52b496a8c15b00806058f9d3c4458a95965a7accb21a7cb4ae550bcc4f"
+  },
+  {
+    "id": "u3-01",
+    "en": "baker’s",
+    "path": "audio/words/u3-01.m4a",
+    "bytes": 11162,
+    "duration": 0.7895238095238095,
+    "rms": 2326,
+    "peak": 17572,
+    "sha256": "3310f96bd9f32ea8f3171bfad6b21007d6e1533fdf4edffa488f41a4d0da6502"
+  },
+  {
+    "id": "u3-02",
+    "en": "butcher’s",
+    "path": "audio/words/u3-02.m4a",
+    "bytes": 11059,
+    "duration": 0.7430839002267574,
+    "rms": 2358,
+    "peak": 19387,
+    "sha256": "65c557a43d71a9d92749805134f482cbe0d1ca07ed169369ffe5aa34cd2b2165"
+  },
+  {
+    "id": "u3-03",
+    "en": "greengrocer’s",
+    "path": "audio/words/u3-03.m4a",
+    "bytes": 14357,
+    "duration": 1.184263038548753,
+    "rms": 3048,
+    "peak": 16584,
+    "sha256": "8922581c7ff2be7babb6a362093577fe9be64396689a2d7f5ac0a9c4475d76f7"
+  },
+  {
+    "id": "u3-04",
+    "en": "sweet shop",
+    "path": "audio/words/u3-04.m4a",
+    "bytes": 12540,
+    "duration": 0.9520634920634921,
+    "rms": 2756,
+    "peak": 16597,
+    "sha256": "8b1420ef895c247ae2c94cfe0f6fa9324b92de1ae0c0dc3cfc330cf693a4edda"
+  },
+  {
+    "id": "u3-05",
+    "en": "supermarket",
+    "path": "audio/words/u3-05.m4a",
+    "bytes": 14101,
+    "duration": 1.1378231292517007,
+    "rms": 3178,
+    "peak": 26568,
+    "sha256": "84a3ee7d76af4b1f46a5d09cee738f05d5d828b5e075a1eab7297c9535aba9d3"
+  },
+  {
+    "id": "u3-06",
+    "en": "bank",
+    "path": "audio/words/u3-06.m4a",
+    "bytes": 9974,
+    "duration": 0.6734240362811791,
+    "rms": 1536,
+    "peak": 16739,
+    "sha256": "9d5663cc448c4b530541c9a8c15847d206e8ef43e71738cdbf98a6cb0162db56"
+  },
+  {
+    "id": "u3-07",
+    "en": "post office",
+    "path": "audio/words/u3-07.m4a",
+    "bytes": 14357,
+    "duration": 1.1378231292517007,
+    "rms": 2922,
+    "peak": 20618,
+    "sha256": "68eeb7296659bfa4317d88fc26861516d76f7f5e4121d85c50de271b4bb16a4c"
+  },
+  {
+    "id": "u3-08",
+    "en": "hospital",
+    "path": "audio/words/u3-08.m4a",
+    "bytes": 11241,
+    "duration": 0.8127437641723356,
+    "rms": 2580,
+    "peak": 18943,
+    "sha256": "1fab51e1b06c6b591b1703de7e695cbb8186b778550a3235e66010d3b32bb2f1"
+  },
+  {
+    "id": "u3-09",
+    "en": "behind",
+    "path": "audio/words/u3-09.m4a",
+    "bytes": 11303,
+    "duration": 0.7895238095238095,
+    "rms": 2353,
+    "peak": 23048,
+    "sha256": "6b1a2f6028b3d033e8ff79e6af1f749a1bb593f214bac5fca2d01fee3f152f03"
+  },
+  {
+    "id": "u3-10",
+    "en": "next to",
+    "path": "audio/words/u3-10.m4a",
+    "bytes": 12960,
+    "duration": 0.928843537414966,
+    "rms": 2572,
+    "peak": 20182,
+    "sha256": "969ad1970ffcd7bc853d74dc4078f5dc77c3afad4c047f624fb6828de2c0d6b1"
+  },
+  {
+    "id": "u3-11",
+    "en": "opposite",
+    "path": "audio/words/u3-11.m4a",
+    "bytes": 10544,
+    "duration": 0.7198639455782313,
+    "rms": 2814,
+    "peak": 18294,
+    "sha256": "2554a44517712d238f32b529ac72257b4c039c4a93a512386f14f9c0c57483e5"
+  },
+  {
+    "id": "u3-12",
+    "en": "between",
+    "path": "audio/words/u3-12.m4a",
+    "bytes": 11219,
+    "duration": 0.7895238095238095,
+    "rms": 2539,
+    "peak": 19136,
+    "sha256": "47774a9618d83b93d342e80808b4bea6624cebd7dce2e1cd7107d7af401a6fb8"
+  },
+  {
+    "id": "u3-13",
+    "en": "postman",
+    "path": "audio/words/u3-13.m4a",
+    "bytes": 11164,
+    "duration": 0.7895238095238095,
+    "rms": 2030,
+    "peak": 15204,
+    "sha256": "13949b561832360569111ed26e013b11997b98f784e5f80e02eb183d5f55d4b5"
+  },
+  {
+    "id": "u3-14",
+    "en": "chef",
+    "path": "audio/words/u3-14.m4a",
+    "bytes": 9753,
+    "duration": 0.6502040816326531,
+    "rms": 1685,
+    "peak": 11885,
+    "sha256": "b40cfbf39ebeb84223779d47716191ec138181207f1e9fc28bce676dea6dce74"
+  },
+  {
+    "id": "u3-15",
+    "en": "firefighter",
+    "path": "audio/words/u3-15.m4a",
+    "bytes": 13281,
+    "duration": 1.0217233560090704,
+    "rms": 2618,
+    "peak": 21282,
+    "sha256": "46555b001d619fcb51231b9eb1dbe21f73c20dbb682805bbd6a0bfb12ed95c57"
+  },
+  {
+    "id": "u3-16",
+    "en": "pilot",
+    "path": "audio/words/u3-16.m4a",
+    "bytes": 10190,
+    "duration": 0.6734240362811791,
+    "rms": 2119,
+    "peak": 21045,
+    "sha256": "df0aca7be81451b9888c8b7cb6f090640802f483879c64d448bb4daf1796ff7c"
+  },
+  {
+    "id": "u3-17",
+    "en": "police officer",
+    "path": "audio/words/u3-17.m4a",
+    "bytes": 14659,
+    "duration": 1.1610430839002268,
+    "rms": 3421,
+    "peak": 20878,
+    "sha256": "151e0bfdcb98593b96c2c149545b275105242dc69fc00d8ed3bf478da8ad45f0"
+  },
+  {
+    "id": "u3-18",
+    "en": "vet",
+    "path": "audio/words/u3-18.m4a",
+    "bytes": 9102,
+    "duration": 0.5108843537414965,
+    "rms": 1936,
+    "peak": 14751,
+    "sha256": "e719591ab6c3c9f599b66a5b2b738c6180357e2947f95f89674832e0cb617699"
+  },
+  {
+    "id": "u3-19",
+    "en": "doctor",
+    "path": "audio/words/u3-19.m4a",
+    "bytes": 10091,
+    "duration": 0.6037641723356009,
+    "rms": 2629,
+    "peak": 21187,
+    "sha256": "8500fa55f5029f1598fc788c81a0838c765fbbb7aac06422871a9b8c3378bb82"
+  },
+  {
+    "id": "u3-20",
+    "en": "baker",
+    "path": "audio/words/u3-20.m4a",
+    "bytes": 9471,
+    "duration": 0.5805442176870749,
+    "rms": 2599,
+    "peak": 18462,
+    "sha256": "283347df573580d24f630bcb4fcf12a86f697ca35713671e60685f0518b321b4"
+  },
+  {
+    "id": "u4-01",
+    "en": "paint",
+    "path": "audio/words/u4-01.m4a",
+    "bytes": 10100,
+    "duration": 0.6966439909297052,
+    "rms": 1333,
+    "peak": 11234,
+    "sha256": "aa67cf6d0a25d89c9460e6e0b8ebdacf2f920ecf7b27925eea7d9ba3d19b6749"
+  },
+  {
+    "id": "u4-02",
+    "en": "plant flowers",
+    "path": "audio/words/u4-02.m4a",
+    "bytes": 15654,
+    "duration": 1.2771428571428571,
+    "rms": 2863,
+    "peak": 23533,
+    "sha256": "2ae48a66a8c6c71aeecf0192f15f4f0435c724c99ebec8c93f82f018f3f0b309"
+  },
+  {
+    "id": "u4-03",
+    "en": "clean",
+    "path": "audio/words/u4-03.m4a",
+    "bytes": 9411,
+    "duration": 0.6502040816326531,
+    "rms": 1944,
+    "peak": 13241,
+    "sha256": "c7bffd1804db9c5ce1fd60aba747209ce335e5cb1936079346329d9b5efd3384"
+  },
+  {
+    "id": "u4-04",
+    "en": "read comics",
+    "path": "audio/words/u4-04.m4a",
+    "bytes": 14938,
+    "duration": 1.1610430839002268,
+    "rms": 2752,
+    "peak": 22597,
+    "sha256": "35911821d6ffd1fee5fc4645183e86c33fb57789997331f9add64b0e949965a4"
+  },
+  {
+    "id": "u4-05",
+    "en": "go shopping",
+    "path": "audio/words/u4-05.m4a",
+    "bytes": 12643,
+    "duration": 0.9520634920634921,
+    "rms": 3432,
+    "peak": 19212,
+    "sha256": "816b604ca8412a7405ec32a82d0ad8256e6f385de06dd28eec04cbc223325b5f"
+  },
+  {
+    "id": "u4-06",
+    "en": "go to the gym",
+    "path": "audio/words/u4-06.m4a",
+    "bytes": 12856,
+    "duration": 1.0217233560090704,
+    "rms": 3607,
+    "peak": 19644,
+    "sha256": "f39eeca7b4130afdfa69acd2a2f7c8445e9f75bf8036825e382845bd8e1c4799"
+  },
+  {
+    "id": "u4-07",
+    "en": "badminton",
+    "path": "audio/words/u4-07.m4a",
+    "bytes": 12291,
+    "duration": 0.928843537414966,
+    "rms": 2580,
+    "peak": 19857,
+    "sha256": "f255adb6efcd6d871b846aa6e6825fbb856e953fe83b637c1aeb05f29feb15cc"
+  },
+  {
+    "id": "u4-08",
+    "en": "volleyball",
+    "path": "audio/words/u4-08.m4a",
+    "bytes": 11216,
+    "duration": 0.8127437641723356,
+    "rms": 3366,
+    "peak": 19539,
+    "sha256": "804e5537193ecb69d47196d1392a223d6605a58b01864582a1d8edf87c152516"
+  },
+  {
+    "id": "u4-09",
+    "en": "baseball",
+    "path": "audio/words/u4-09.m4a",
+    "bytes": 11302,
+    "duration": 0.7895238095238095,
+    "rms": 2834,
+    "peak": 19299,
+    "sha256": "08bf46159d5c76ff3fb15d8892ca53ffae62ea81240d2ab62501086e16e469db"
+  },
+  {
+    "id": "u4-10",
+    "en": "table tennis",
+    "path": "audio/words/u4-10.m4a",
+    "bytes": 13843,
+    "duration": 1.0913832199546485,
+    "rms": 2954,
+    "peak": 19695,
+    "sha256": "ddde5f22d8330ad1005aa76c74cdd4a3800fec36e56773976c206941fd1d6152"
+  },
+  {
+    "id": "u4-11",
+    "en": "hockey",
+    "path": "audio/words/u4-11.m4a",
+    "bytes": 9344,
+    "duration": 0.6037641723356009,
+    "rms": 2320,
+    "peak": 21122,
+    "sha256": "1543e43c8e61c00cab3bd7fe8f9f654ae90c0f8dde4fc556f0bce704b1366e22"
+  },
+  {
+    "id": "u4-12",
+    "en": "always",
+    "path": "audio/words/u4-12.m4a",
+    "bytes": 12183,
+    "duration": 0.90562358276644,
+    "rms": 3530,
+    "peak": 17406,
+    "sha256": "299bfe6d8c9f8c93f1fdcb03df6eaf4fbee6ed9fec37c720e3c5fe8e938b0fc7"
+  },
+  {
+    "id": "u4-13",
+    "en": "sometimes",
+    "path": "audio/words/u4-13.m4a",
+    "bytes": 14654,
+    "duration": 1.1378231292517007,
+    "rms": 2331,
+    "peak": 24260,
+    "sha256": "bd187a73597966876e3e1de3ff44665395d8528249f731a333ae7d4068c42865"
+  },
+  {
+    "id": "u4-14",
+    "en": "never",
+    "path": "audio/words/u4-14.m4a",
+    "bytes": 9099,
+    "duration": 0.5108843537414965,
+    "rms": 2249,
+    "peak": 16353,
+    "sha256": "855acad92303c7c4ab5c1a355aa7dee6a55e6d4db4d367aa00be3bd42c19ff71"
+  },
+  {
+    "id": "u5-01",
+    "en": "cap",
+    "path": "audio/words/u5-01.m4a",
+    "bytes": 8371,
+    "duration": 0.5108843537414965,
+    "rms": 1429,
+    "peak": 13906,
+    "sha256": "af09b6297500c2011b4c4aafdf4f1ba45127cd7063ca0842ae68b71aae6a71ba"
+  },
+  {
+    "id": "u5-02",
+    "en": "scarf",
+    "path": "audio/words/u5-02.m4a",
+    "bytes": 11561,
+    "duration": 0.7895238095238095,
+    "rms": 1852,
+    "peak": 18737,
+    "sha256": "58afc7ea18e5c7eebc33e8e07b0a482317c4917e56d5352994300a4d777b1a0a"
+  },
+  {
+    "id": "u5-03",
+    "en": "gloves",
+    "path": "audio/words/u5-03.m4a",
+    "bytes": 10124,
+    "duration": 0.6734240362811791,
+    "rms": 2298,
+    "peak": 22019,
+    "sha256": "d111230fe791edac16a1a70c016e8f8d063e4c3eaba2385426356a20d933356a"
+  },
+  {
+    "id": "u5-04",
+    "en": "boots",
+    "path": "audio/words/u5-04.m4a",
+    "bytes": 9531,
+    "duration": 0.6037641723356009,
+    "rms": 1787,
+    "peak": 11943,
+    "sha256": "e2563afdd6067cce46d89da1975c0bbf7386ed25f0bca2d46c775e15688747d3"
+  },
+  {
+    "id": "u5-05",
+    "en": "jumper",
+    "path": "audio/words/u5-05.m4a",
+    "bytes": 9858,
+    "duration": 0.6037641723356009,
+    "rms": 2639,
+    "peak": 22804,
+    "sha256": "65b1907eaadc5d248245a1bf97c39fd6767dd3fd716231d40bc931e20dea7c27"
+  },
+  {
+    "id": "u5-06",
+    "en": "jeans",
+    "path": "audio/words/u5-06.m4a",
+    "bytes": 10870,
+    "duration": 0.7663038548752834,
+    "rms": 1707,
+    "peak": 14315,
+    "sha256": "143a237ac0933b267236419632df0de09d57b8d0372b26a60315e82cf7ffa607"
+  },
+  {
+    "id": "u5-07",
+    "en": "put on",
+    "path": "audio/words/u5-07.m4a",
+    "bytes": 10450,
+    "duration": 0.7198639455782313,
+    "rms": 2612,
+    "peak": 15462,
+    "sha256": "eeb49af1d9eb268ee7c1d7263db47c3ef18b24906011bdaf2526eb81a2ddb07e"
+  },
+  {
+    "id": "u5-08",
+    "en": "take off",
+    "path": "audio/words/u5-08.m4a",
+    "bytes": 11501,
+    "duration": 0.8127437641723356,
+    "rms": 2557,
+    "peak": 15088,
+    "sha256": "e04fa1490b1b22d4ab58c344aa5096417bd387266fc1ebd0a2217eba00591648"
+  },
+  {
+    "id": "u5-09",
+    "en": "uniform",
+    "path": "audio/words/u5-09.m4a",
+    "bytes": 12401,
+    "duration": 0.9520634920634921,
+    "rms": 3350,
+    "peak": 18913,
+    "sha256": "d53dc34a6739f0f967751c1baeed18e42360c04c0fb7fab0297e73711d22c1f5"
+  },
+  {
+    "id": "u5-10",
+    "en": "chew gum",
+    "path": "audio/words/u5-10.m4a",
+    "bytes": 10930,
+    "duration": 0.7663038548752834,
+    "rms": 3037,
+    "peak": 19631,
+    "sha256": "5eaf7ccad6098faeb5dec3e95598108f8098909137351dae165c8a3c1d8e8e74"
+  },
+  {
+    "id": "u5-11",
+    "en": "drop litter",
+    "path": "audio/words/u5-11.m4a",
+    "bytes": 11866,
+    "duration": 0.8359637188208616,
+    "rms": 3415,
+    "peak": 20011,
+    "sha256": "3521934eb42b37567b9029fd697d28403dd0bd3f1e19c404e8e7e2107f3adce5"
+  },
+  {
+    "id": "u5-12",
+    "en": "be quiet",
+    "path": "audio/words/u5-12.m4a",
+    "bytes": 11686,
+    "duration": 0.8359637188208616,
+    "rms": 2809,
+    "peak": 24765,
+    "sha256": "8f5cc31de6c1ff554b947a4ef199c02a6d1346e1466c5da8d5169063a8792fe7"
+  },
+  {
+    "id": "u5-13",
+    "en": "shout",
+    "path": "audio/words/u5-13.m4a",
+    "bytes": 9906,
+    "duration": 0.626984126984127,
+    "rms": 1882,
+    "peak": 18598,
+    "sha256": "628c14b72f71705c0b9849770b0d13ddb157c6fe1886214adcdf03a24a8307db"
+  },
+  {
+    "id": "u5-14",
+    "en": "make a noise",
+    "path": "audio/words/u5-14.m4a",
+    "bytes": 12808,
+    "duration": 0.9520634920634921,
+    "rms": 2850,
+    "peak": 17661,
+    "sha256": "6f509a8d1a59d11ae0d246aeb97c8c9c3840e0dd61372c3f43ab1672f8eb5f20"
+  },
+  {
+    "id": "u6-01",
+    "en": "cherry",
+    "path": "audio/words/u6-01.m4a",
+    "bytes": 8862,
+    "duration": 0.6037641723356009,
+    "rms": 2348,
+    "peak": 17735,
+    "sha256": "71e47a6dc728b257db9a6f0178af927e0c68218f838196eb73c27898cbcd1f80"
+  },
+  {
+    "id": "u6-02",
+    "en": "strawberry",
+    "path": "audio/words/u6-02.m4a",
+    "bytes": 11344,
+    "duration": 0.7895238095238095,
+    "rms": 3169,
+    "peak": 17499,
+    "sha256": "2aca42220f809340519eea752e61de8fed2a225179abc771486470a796aafe73"
+  },
+  {
+    "id": "u6-03",
+    "en": "mango",
+    "path": "audio/words/u6-03.m4a",
+    "bytes": 10174,
+    "duration": 0.6502040816326531,
+    "rms": 2695,
+    "peak": 20725,
+    "sha256": "38cddc0fd4ddfee13c6022160dcc3ca734024595e8fd39d07a8db39c7e04b1f1"
+  },
+  {
+    "id": "u6-04",
+    "en": "grapes",
+    "path": "audio/words/u6-04.m4a",
+    "bytes": 10379,
+    "duration": 0.6966439909297052,
+    "rms": 2255,
+    "peak": 15425,
+    "sha256": "6ccf81bc435914817cb516f5a391ef3e5cbfd1da0e8a87ff1f5cf6b5261f0aa3"
+  },
+  {
+    "id": "u6-05",
+    "en": "sugar",
+    "path": "audio/words/u6-05.m4a",
+    "bytes": 9576,
+    "duration": 0.5805442176870749,
+    "rms": 2558,
+    "peak": 19575,
+    "sha256": "997bf57cfbfb35100b12294b75fb4f7c4e9f0a694e7d045c75b10d1d7a4b5c45"
+  },
+  {
+    "id": "u6-06",
+    "en": "salt",
+    "path": "audio/words/u6-06.m4a",
+    "bytes": 10527,
+    "duration": 0.6966439909297052,
+    "rms": 2229,
+    "peak": 13073,
+    "sha256": "69d84b36441c8d76ebe1cdba3ad12d5ed127d90ec8b46cc2084334787ed2125a"
+  },
+  {
+    "id": "u6-07",
+    "en": "butter",
+    "path": "audio/words/u6-07.m4a",
+    "bytes": 9372,
+    "duration": 0.5573242630385488,
+    "rms": 2642,
+    "peak": 23564,
+    "sha256": "84b8294f162faf841969af84bfa1c7701446283838e710b075e9fd59eb041692"
+  },
+  {
+    "id": "u6-08",
+    "en": "flour",
+    "path": "audio/words/u6-08.m4a",
+    "bytes": 9057,
+    "duration": 0.5573242630385488,
+    "rms": 2788,
+    "peak": 20935,
+    "sha256": "4bccd397523c5868c56c5f7d4a999f15947a20a109c49b08285889d7a3c42d4d"
+  },
+  {
+    "id": "u6-09",
+    "en": "a loaf of bread",
+    "path": "audio/words/u6-09.m4a",
+    "bytes": 14016,
+    "duration": 1.1378231292517007,
+    "rms": 3883,
+    "peak": 22361,
+    "sha256": "19e4ccff0e311f34dd11009b797eac4f4b7ee5f7ca86e93da90d47e721637dfd"
+  },
+  {
+    "id": "u6-10",
+    "en": "a jar of jam",
+    "path": "audio/words/u6-10.m4a",
+    "bytes": 14687,
+    "duration": 1.2074829931972788,
+    "rms": 3478,
+    "peak": 25994,
+    "sha256": "cd09a0aebf4077ab83e98b4bc02176fd6b9f706297550033262447211c9f0c9c"
+  },
+  {
+    "id": "u6-11",
+    "en": "a carton of juice",
+    "path": "audio/words/u6-11.m4a",
+    "bytes": 16641,
+    "duration": 1.4629024943310658,
+    "rms": 3144,
+    "peak": 24135,
+    "sha256": "b63ebb5de3ee93662c1680a90797105ea45917d824d7a5abd56ea574c29d1cd4"
+  },
+  {
+    "id": "u6-12",
+    "en": "a packet of biscuits",
+    "path": "audio/words/u6-12.m4a",
+    "bytes": 17927,
+    "duration": 1.5325623582766439,
+    "rms": 3056,
+    "peak": 22212,
+    "sha256": "f5613af7eec95250f3b738c91ab35918d15cd4f2cb2442d4dca013b57fd03ddb"
+  },
+  {
+    "id": "u6-13",
+    "en": "a bottle of olive oil",
+    "path": "audio/words/u6-13.m4a",
+    "bytes": 16396,
+    "duration": 1.4164625850340136,
+    "rms": 3966,
+    "peak": 21608,
+    "sha256": "fa752dae41899913698e7e107e5bf48d2ae04f10268036e088bd6732790aa798"
+  },
+  {
+    "id": "u6-14",
+    "en": "a can of cola",
+    "path": "audio/words/u6-14.m4a",
+    "bytes": 13912,
+    "duration": 1.0681632653061224,
+    "rms": 3310,
+    "peak": 20798,
+    "sha256": "05b06312230cb7b1dd8287254910a3d3fb9941ff20ed53c10faa7b5cecb5a02f"
+  },
+  {
+    "id": "u6-15",
+    "en": "a bar of chocolate",
+    "path": "audio/words/u6-15.m4a",
+    "bytes": 15976,
+    "duration": 1.3235827664399094,
+    "rms": 3577,
+    "peak": 24685,
+    "sha256": "b71c2f41976da15f0d1f378621b2d04a45b034b1466bc56a3088d21ec0435be1"
+  },
+  {
+    "id": "u7-01",
+    "en": "giraffe",
+    "path": "audio/words/u7-01.m4a",
+    "bytes": 11871,
+    "duration": 0.8591836734693877,
+    "rms": 2902,
+    "peak": 22703,
+    "sha256": "c489bcf8b2aa33db28891fba7cc3a10646d509524b00b90e5cc93e1b4b569703"
+  },
+  {
+    "id": "u7-02",
+    "en": "elephant",
+    "path": "audio/words/u7-02.m4a",
+    "bytes": 10875,
+    "duration": 0.7198639455782313,
+    "rms": 2597,
+    "peak": 21373,
+    "sha256": "4c90f7232d7ee0429b0fb3a134ab11b3dbfe64046a659aadd00bd67c5c52dfbf"
+  },
+  {
+    "id": "u7-03",
+    "en": "cheetah",
+    "path": "audio/words/u7-03.m4a",
+    "bytes": 9569,
+    "duration": 0.6037641723356009,
+    "rms": 2534,
+    "peak": 14001,
+    "sha256": "6b2c2f8a9fe9d0f5c85146d5840083808dc819ec6d6a19c6111347af5cc0d680"
+  },
+  {
+    "id": "u7-04",
+    "en": "hippo",
+    "path": "audio/words/u7-04.m4a",
+    "bytes": 9119,
+    "duration": 0.5573242630385488,
+    "rms": 2403,
+    "peak": 14839,
+    "sha256": "5b5246123875268e2c1014f2164832787e6485650ed9a1db4b14e4b053d48385"
+  },
+  {
+    "id": "u7-05",
+    "en": "lion",
+    "path": "audio/words/u7-05.m4a",
+    "bytes": 9665,
+    "duration": 0.6037641723356009,
+    "rms": 2278,
+    "peak": 23551,
+    "sha256": "322c6abff59f6a5ca6226065467e8cf9f9e75d7362e2c155b6117df6b391dbfd"
+  },
+  {
+    "id": "u7-06",
+    "en": "monkey",
+    "path": "audio/words/u7-06.m4a",
+    "bytes": 10149,
+    "duration": 0.6502040816326531,
+    "rms": 2715,
+    "peak": 27016,
+    "sha256": "6184e8e4b97e7e4d1c6e51317dc1708aa8c89c35aac188be9449f700a912e315"
+  },
+  {
+    "id": "u7-07",
+    "en": "panda",
+    "path": "audio/words/u7-07.m4a",
+    "bytes": 9875,
+    "duration": 0.6502040816326531,
+    "rms": 2374,
+    "peak": 21590,
+    "sha256": "483730653660054300fb66deecbb5ab07ac606032c3fcd6f213add372f9c7ce5"
+  },
+  {
+    "id": "u7-08",
+    "en": "snail",
+    "path": "audio/words/u7-08.m4a",
+    "bytes": 10801,
+    "duration": 0.7663038548752834,
+    "rms": 1974,
+    "peak": 12916,
+    "sha256": "9548403a56b9fc34996434ac17b7af831cc6e80eb477006c18440315c23460bf"
+  },
+  {
+    "id": "u7-09",
+    "en": "dolphin",
+    "path": "audio/words/u7-09.m4a",
+    "bytes": 11016,
+    "duration": 0.7895238095238095,
+    "rms": 2854,
+    "peak": 21639,
+    "sha256": "dd35a5c60b050ca9ebf6d137929f2c03e24a63715fa2069df8b3f9d79d041adb"
+  },
+  {
+    "id": "u7-10",
+    "en": "snake",
+    "path": "audio/words/u7-10.m4a",
+    "bytes": 9726,
+    "duration": 0.626984126984127,
+    "rms": 1593,
+    "peak": 10903,
+    "sha256": "ef234abb6aee4396ace14c9705032a102dde86faf5f22bf136ed9be28867e11b"
+  },
+  {
+    "id": "u7-11",
+    "en": "penguin",
+    "path": "audio/words/u7-11.m4a",
+    "bytes": 11995,
+    "duration": 0.8591836734693877,
+    "rms": 2324,
+    "peak": 17586,
+    "sha256": "976e0c04d2f96a78ad5af80d575e8d3f6638fb28b2930faa761023798a7e14a4"
+  },
+  {
+    "id": "u7-12",
+    "en": "crocodile",
+    "path": "audio/words/u7-12.m4a",
+    "bytes": 12662,
+    "duration": 0.9752834467120182,
+    "rms": 2885,
+    "peak": 22636,
+    "sha256": "0b2ebda23219d0ccba9c92b282b5cf5ae368fdccebfbade943da7832d0337b20"
+  },
+  {
+    "id": "u7-13",
+    "en": "heavy",
+    "path": "audio/words/u7-13.m4a",
+    "bytes": 8777,
+    "duration": 0.5573242630385488,
+    "rms": 2038,
+    "peak": 21363,
+    "sha256": "60f2bbe58d4576679053aae0069ae7bc22cb1d3b3437badee38784ab4d89ec53"
+  },
+  {
+    "id": "u7-14",
+    "en": "strong",
+    "path": "audio/words/u7-14.m4a",
+    "bytes": 10524,
+    "duration": 0.7430839002267574,
+    "rms": 2421,
+    "peak": 19058,
+    "sha256": "447517ed4f9f6dbd196ec83f1d96bbc24bceb32ca92b7f001d4c5308a608b559"
+  },
+  {
+    "id": "u7-15",
+    "en": "fast",
+    "path": "audio/words/u7-15.m4a",
+    "bytes": 11147,
+    "duration": 0.7430839002267574,
+    "rms": 2035,
+    "peak": 20370,
+    "sha256": "c59381c6f27b9a4d99f8bb530022922c5c1341eaac70d5decede546ea6d84f04"
+  },
+  {
+    "id": "u7-16",
+    "en": "slow",
+    "path": "audio/words/u7-16.m4a",
+    "bytes": 9961,
+    "duration": 0.626984126984127,
+    "rms": 2478,
+    "peak": 15831,
+    "sha256": "3cdf60f4ebeaa9664380fc7f955710da0294d28d96ddadb34c7450f95407613f"
+  },
+  {
+    "id": "u8-01",
+    "en": "library",
+    "path": "audio/words/u8-01.m4a",
+    "bytes": 11459,
+    "duration": 0.7663038548752834,
+    "rms": 3005,
+    "peak": 22695,
+    "sha256": "64446ff2745017e2bf9b336f386e0ef984519a72ad05b3d77a89e1a61460f4a8"
+  },
+  {
+    "id": "u8-02",
+    "en": "sports centre",
+    "path": "audio/words/u8-02.m4a",
+    "bytes": 14963,
+    "duration": 1.184263038548753,
+    "rms": 3111,
+    "peak": 19055,
+    "sha256": "cdb72f91f54a788822abb4f2222ef72db3f6bc6ae4a3a6819746dde30187f463"
+  },
+  {
+    "id": "u8-03",
+    "en": "theatre",
+    "path": "audio/words/u8-03.m4a",
+    "bytes": 10146,
+    "duration": 0.6502040816326531,
+    "rms": 2905,
+    "peak": 17150,
+    "sha256": "901ebae0156dd3b67a7bb271a56692154a1e6a00f13b2a5cfe8cfe6b6e7fe348"
+  },
+  {
+    "id": "u8-04",
+    "en": "museum",
+    "path": "audio/words/u8-04.m4a",
+    "bytes": 11235,
+    "duration": 0.7895238095238095,
+    "rms": 2855,
+    "peak": 15744,
+    "sha256": "ab0764274529f26158403e0ecf2b90fb34584fb5f9dde6eabc6f69cdbcb403e3"
+  },
+  {
+    "id": "u8-05",
+    "en": "funfair",
+    "path": "audio/words/u8-05.m4a",
+    "bytes": 10541,
+    "duration": 0.6734240362811791,
+    "rms": 2421,
+    "peak": 24786,
+    "sha256": "8fcf72d27efa52b3209dd763c3932f750c40e57703dc9c0e0215a32b62d14153"
+  },
+  {
+    "id": "u8-06",
+    "en": "market",
+    "path": "audio/words/u8-06.m4a",
+    "bytes": 10843,
+    "duration": 0.6966439909297052,
+    "rms": 2503,
+    "peak": 23012,
+    "sha256": "0bbdb75b9a9fef0ed941102bb9b88689f5acf4f31fe493b3873665d4ba8504ff"
+  },
+  {
+    "id": "u8-07",
+    "en": "beach",
+    "path": "audio/words/u8-07.m4a",
+    "bytes": 9630,
+    "duration": 0.626984126984127,
+    "rms": 1967,
+    "peak": 13380,
+    "sha256": "c81cce21ab6667e72ebd60f7c31d44c3b6d5e28003673cab60692ad2d211fd83"
+  },
+  {
+    "id": "u8-08",
+    "en": "naughty",
+    "path": "audio/words/u8-08.m4a",
+    "bytes": 9782,
+    "duration": 0.626984126984127,
+    "rms": 2538,
+    "peak": 15383,
+    "sha256": "937375ce60b394644d625311dedba128d9059c5fc3dc0ff772b090a9fb116003"
+  },
+  {
+    "id": "u8-09",
+    "en": "cute",
+    "path": "audio/words/u8-09.m4a",
+    "bytes": 9517,
+    "duration": 0.5805442176870749,
+    "rms": 1671,
+    "peak": 14495,
+    "sha256": "018d0b6b4b8ced160813c842cdb48271b273ef845018b4c70b79c6b2675f3c35"
+  },
+  {
+    "id": "u8-10",
+    "en": "funny",
+    "path": "audio/words/u8-10.m4a",
+    "bytes": 8963,
+    "duration": 0.5805442176870749,
+    "rms": 2296,
+    "peak": 25483,
+    "sha256": "64f65bf2b5608eefaba70d4f267d3226a4392c4ad044dee0b3a810fe24a78d3a"
+  },
+  {
+    "id": "u8-11",
+    "en": "clever",
+    "path": "audio/words/u8-11.m4a",
+    "bytes": 9572,
+    "duration": 0.5805442176870749,
+    "rms": 2151,
+    "peak": 15254,
+    "sha256": "07d87829162f897e214345f87c119306253b3dbc78921e8c47bcd2d1b5c41472"
+  },
+  {
+    "id": "u8-12",
+    "en": "shy",
+    "path": "audio/words/u8-12.m4a",
+    "bytes": 9480,
+    "duration": 0.6037641723356009,
+    "rms": 2250,
+    "peak": 23495,
+    "sha256": "5006c96780dbc09305e2983d2620bc391ca3c0e4325c52b545129049e57c9319"
+  },
+  {
+    "id": "u8-13",
+    "en": "noisy",
+    "path": "audio/words/u8-13.m4a",
+    "bytes": 9859,
+    "duration": 0.626984126984127,
+    "rms": 2882,
+    "peak": 16770,
+    "sha256": "87df77e915bf7639f7907d74a67cdeb830e4bfae70338739e7e463fa391756c3"
+  },
+  {
+    "id": "u8-14",
+    "en": "quiet",
+    "path": "audio/words/u8-14.m4a",
+    "bytes": 10153,
+    "duration": 0.6966439909297052,
+    "rms": 2418,
+    "peak": 24755,
+    "sha256": "af20dd15226406511ff148f84749fc2dd62c15015c0391d4de6c65648d436e97"
+  },
+  {
+    "id": "u8-15",
+    "en": "dirty",
+    "path": "audio/words/u8-15.m4a",
+    "bytes": 9669,
+    "duration": 0.6502040816326531,
+    "rms": 2888,
+    "peak": 18501,
+    "sha256": "b3a57393aa0b2349cc72e0fbadc01b3fdcf0f49ca453f1fe890f94412497ea84"
+  },
+  {
+    "id": "u9-01",
+    "en": "visit",
+    "path": "audio/words/u9-01.m4a",
+    "bytes": 9392,
+    "duration": 0.6037641723356009,
+    "rms": 2624,
+    "peak": 16007,
+    "sha256": "0bccb257d32347b706f77058b26007bacf80358c21b3efbc3fc946552083c65a"
+  },
+  {
+    "id": "u9-02",
+    "en": "cave",
+    "path": "audio/words/u9-02.m4a",
+    "bytes": 8727,
+    "duration": 0.5573242630385488,
+    "rms": 1715,
+    "peak": 10828,
+    "sha256": "58b82a0cc578f068fdba9acc37e89cd4820464a73907cb695723dfacfb047761"
+  },
+  {
+    "id": "u9-03",
+    "en": "footprint",
+    "path": "audio/words/u9-03.m4a",
+    "bytes": 12154,
+    "duration": 0.8824036281179138,
+    "rms": 2606,
+    "peak": 19262,
+    "sha256": "139aa5f54e2777bfd3618ee8fae83d7d70654d7cbe3a68e7b16d4b6bc633ab4d"
+  },
+  {
+    "id": "u9-04",
+    "en": "rock",
+    "path": "audio/words/u9-04.m4a",
+    "bytes": 10652,
+    "duration": 0.6502040816326531,
+    "rms": 2543,
+    "peak": 20854,
+    "sha256": "b985d92781adb83377480c127d6b74ea83ed3b452659009cde545e308ce005c8"
+  },
+  {
+    "id": "u9-05",
+    "en": "scream",
+    "path": "audio/words/u9-05.m4a",
+    "bytes": 10924,
+    "duration": 0.7663038548752834,
+    "rms": 2499,
+    "peak": 17759,
+    "sha256": "cb1b6fccd9ba1098a95be33fa84c5212a5ba14886ed08c4f4b1ea765e6812ed3"
+  },
+  {
+    "id": "u9-06",
+    "en": "diver",
+    "path": "audio/words/u9-06.m4a",
+    "bytes": 9228,
+    "duration": 0.5573242630385488,
+    "rms": 2366,
+    "peak": 23051,
+    "sha256": "49e959af573d1947c5cd6d0bda7ee8ace937b82a05226046e82a06c12843b94a"
+  },
+  {
+    "id": "u9-07",
+    "en": "discover",
+    "path": "audio/words/u9-07.m4a",
+    "bytes": 10812,
+    "duration": 0.7430839002267574,
+    "rms": 2788,
+    "peak": 22996,
+    "sha256": "f3c3ae703d16c9301f3d0bc702274b030fa6c26bb4c919695d0c6b03eb7f71b1"
+  },
+  {
+    "id": "u9-08",
+    "en": "January",
+    "path": "audio/words/u9-08.m4a",
+    "bytes": 11046,
+    "duration": 0.7663038548752834,
+    "rms": 2822,
+    "peak": 18025,
+    "sha256": "10a13662f52eb8e706a8268642358245f8aec68830f399363fca6b65d760301a"
+  },
+  {
+    "id": "u9-09",
+    "en": "February",
+    "path": "audio/words/u9-09.m4a",
+    "bytes": 10919,
+    "duration": 0.7663038548752834,
+    "rms": 2925,
+    "peak": 19821,
+    "sha256": "30971d8688bb099e94b21db7cc1c2dff334438c2d245be46cde0e714a43e287b"
+  },
+  {
+    "id": "u9-10",
+    "en": "March",
+    "path": "audio/words/u9-10.m4a",
+    "bytes": 10708,
+    "duration": 0.6966439909297052,
+    "rms": 2157,
+    "peak": 21993,
+    "sha256": "397714e6bb95c986564b9f305cab1b804b5550e144951ffe1ac59d28b985ad3d"
+  },
+  {
+    "id": "u9-11",
+    "en": "April",
+    "path": "audio/words/u9-11.m4a",
+    "bytes": 9490,
+    "duration": 0.6037641723356009,
+    "rms": 2558,
+    "peak": 17851,
+    "sha256": "d3085ac7b4f6e52ad38d7190065f10d81a7cf62a0ee44ddaea45698730fb6c85"
+  },
+  {
+    "id": "u9-12",
+    "en": "May",
+    "path": "audio/words/u9-12.m4a",
+    "bytes": 9115,
+    "duration": 0.5341043083900227,
+    "rms": 2008,
+    "peak": 13478,
+    "sha256": "c7740ffe6d4982a19449e6c14af0bb4cb96fe29bf9b48e01762efe0c5ef38682"
+  },
+  {
+    "id": "u9-13",
+    "en": "June",
+    "path": "audio/words/u9-13.m4a",
+    "bytes": 9260,
+    "duration": 0.6037641723356009,
+    "rms": 2011,
+    "peak": 15334,
+    "sha256": "9e842f1ec34e4c1c711ceae41c6f28c79e71d76b3257ce0125530e557ede6b89"
+  },
+  {
+    "id": "u9-14",
+    "en": "July",
+    "path": "audio/words/u9-14.m4a",
+    "bytes": 10394,
+    "duration": 0.7198639455782313,
+    "rms": 3140,
+    "peak": 24488,
+    "sha256": "c8b2893bf16a8ed4efa7444bc6d1e84b707d008c46cffce1657169089337966e"
+  },
+  {
+    "id": "u9-15",
+    "en": "August",
+    "path": "audio/words/u9-15.m4a",
+    "bytes": 10348,
+    "duration": 0.6734240362811791,
+    "rms": 2570,
+    "peak": 15491,
+    "sha256": "fe459b162941006b336d30c7c1a643357f73ed7e1bb06a4fcc2e6d50477a94c4"
+  },
+  {
+    "id": "u9-16",
+    "en": "September",
+    "path": "audio/words/u9-16.m4a",
+    "bytes": 12508,
+    "duration": 0.928843537414966,
+    "rms": 2442,
+    "peak": 18610,
+    "sha256": "660ac101814a2155d61d8ccb39dff6eff995a3d7ba24f9598ab569b2cff965f1"
+  },
+  {
+    "id": "u9-17",
+    "en": "October",
+    "path": "audio/words/u9-17.m4a",
+    "bytes": 11119,
+    "duration": 0.7430839002267574,
+    "rms": 3120,
+    "peak": 20055,
+    "sha256": "7ec7c3c347c5d290362c83384a426c8a4868fb7a5ab6ea70bd8b6cfd7330eb4b"
+  },
+  {
+    "id": "u9-18",
+    "en": "November",
+    "path": "audio/words/u9-18.m4a",
+    "bytes": 10929,
+    "duration": 0.7198639455782313,
+    "rms": 2875,
+    "peak": 19866,
+    "sha256": "040f05374f07801b531b9470cefce285fa1db620ef721f3aa1f58b2f08e5b69e"
+  },
+  {
+    "id": "u9-19",
+    "en": "December",
+    "path": "audio/words/u9-19.m4a",
+    "bytes": 11247,
+    "duration": 0.7663038548752834,
+    "rms": 2943,
+    "peak": 21458,
+    "sha256": "3673e51a4acf25fa593cf2e3c7e95513890994d9b54514ed29cc90dc86f97063"
+  },
+  {
+    "id": "u10-01",
+    "en": "swimsuit",
+    "path": "audio/words/u10-01.m4a",
+    "bytes": 11613,
+    "duration": 0.8359637188208616,
+    "rms": 2692,
+    "peak": 17264,
+    "sha256": "96f4c9a19b6a0cd7c19be5d1b23ebad56be0c59d8f7f1c0b7deae2e077a2cbd4"
+  },
+  {
+    "id": "u10-02",
+    "en": "swimming trunks",
+    "path": "audio/words/u10-02.m4a",
+    "bytes": 16642,
+    "duration": 1.3932426303854875,
+    "rms": 2949,
+    "peak": 21520,
+    "sha256": "889e7c61469df9b702a05d441541a8d6309377e518b1be1395f5e7108acf89d6"
+  },
+  {
+    "id": "u10-03",
+    "en": "sunglasses",
+    "path": "audio/words/u10-03.m4a",
+    "bytes": 14122,
+    "duration": 1.1610430839002268,
+    "rms": 2841,
+    "peak": 25876,
+    "sha256": "8fea94a9a5efcccc5a81761dd4ea4dde7da7addcf106fb81d291583b84d5d5b6"
+  },
+  {
+    "id": "u10-04",
+    "en": "tent",
+    "path": "audio/words/u10-04.m4a",
+    "bytes": 9181,
+    "duration": 0.6037641723356009,
+    "rms": 1630,
+    "peak": 14991,
+    "sha256": "77467f1cabf3071f56268de9e3e9ef84b38b5e1bc1ee0329976a0b9a21f33fad"
+  },
+  {
+    "id": "u10-05",
+    "en": "sleeping bag",
+    "path": "audio/words/u10-05.m4a",
+    "bytes": 12686,
+    "duration": 0.9985034013605442,
+    "rms": 3138,
+    "peak": 18929,
+    "sha256": "1df1798d4bb1489b6d9d3ad00feba772cf95973b18aab018f3c44de66c2c7340"
+  },
+  {
+    "id": "u10-06",
+    "en": "suitcase",
+    "path": "audio/words/u10-06.m4a",
+    "bytes": 12311,
+    "duration": 0.928843537414966,
+    "rms": 2477,
+    "peak": 16807,
+    "sha256": "e68872091bfeb11891619f1b710392a836c7d8c1949788ebd692c98ef4d6c72c"
+  },
+  {
+    "id": "u10-07",
+    "en": "camera",
+    "path": "audio/words/u10-07.m4a",
+    "bytes": 10251,
+    "duration": 0.6966439909297052,
+    "rms": 2553,
+    "peak": 20897,
+    "sha256": "4b86911d16151e674a8c545e891c288d1f30bbcd23759c22ee1e432e211b555c"
+  },
+  {
+    "id": "u10-08",
+    "en": "rucksack",
+    "path": "audio/words/u10-08.m4a",
+    "bytes": 12148,
+    "duration": 0.8359637188208616,
+    "rms": 2533,
+    "peak": 21828,
+    "sha256": "07b79a2f28efca875b66f0e4203e8bf863ef42087269158d6a7b116dfd7b4931"
+  },
+  {
+    "id": "u10-09",
+    "en": "island",
+    "path": "audio/words/u10-09.m4a",
+    "bytes": 9379,
+    "duration": 0.6037641723356009,
+    "rms": 1982,
+    "peak": 19677,
+    "sha256": "18bb8c89282f961c302aaf4bc1bea54a0dc9c30bad93c6dbb18b0e8e83342ecb"
+  },
+  {
+    "id": "u10-10",
+    "en": "ocean",
+    "path": "audio/words/u10-10.m4a",
+    "bytes": 9351,
+    "duration": 0.6037641723356009,
+    "rms": 2524,
+    "peak": 14127,
+    "sha256": "a047c6b9f575c3d66347795d90f349ccfd51142a800f89765d5d8c688344750d"
+  },
+  {
+    "id": "u10-11",
+    "en": "rainforest",
+    "path": "audio/words/u10-11.m4a",
+    "bytes": 13999,
+    "duration": 0.9520634920634921,
+    "rms": 2742,
+    "peak": 15196,
+    "sha256": "796acce3bfd9305c33e0c5e148af8472aebc309e37f50aa07e5e83f42a132228"
+  },
+  {
+    "id": "u10-12",
+    "en": "waterfall",
+    "path": "audio/words/u10-12.m4a",
+    "bytes": 12188,
+    "duration": 0.8824036281179138,
+    "rms": 3501,
+    "peak": 17891,
+    "sha256": "3a9f6aea1b2e74a3ad40757280ae6c036dc772a817b4764f954893836b881bbf"
+  },
+  {
+    "id": "u10-13",
+    "en": "lake",
+    "path": "audio/words/u10-13.m4a",
+    "bytes": 8985,
+    "duration": 0.5108843537414965,
+    "rms": 1990,
+    "peak": 16537,
+    "sha256": "81b017209e67ef2d0072e1b1301cf07274a2f113a60393b1ca1fb621844d4bc8"
+  },
+  {
+    "id": "u10-14",
+    "en": "river",
+    "path": "audio/words/u10-14.m4a",
+    "bytes": 8987,
+    "duration": 0.48766439909297055,
+    "rms": 2802,
+    "peak": 16343,
+    "sha256": "1655eef6dbf80d36ea06fb154d472fdfa95be1670000b3ffdf7064ef6b104c39"
+  },
+  {
+    "id": "u10-15",
+    "en": "sand",
+    "path": "audio/words/u10-15.m4a",
+    "bytes": 10443,
+    "duration": 0.6966439909297052,
+    "rms": 1633,
+    "peak": 17009,
+    "sha256": "487ef123ff3470c8d8eb13a7b55c55f34a366cb7f776fef7190fc6a92c755e1d"
+  },
+  {
+    "id": "u10-16",
+    "en": "mountain",
+    "path": "audio/words/u10-16.m4a",
+    "bytes": 10975,
+    "duration": 0.7430839002267574,
+    "rms": 2493,
+    "peak": 20606,
+    "sha256": "f54e4ca573a191d1772f04d3592953dca2c01e426a282178cf11ca08248bf0c3"
+  }
+]
