@@ -25,6 +25,11 @@ function stats(words,state,now=Date.now()){
  for(const w of words){const r=state.records[w.id];if(!r)s.new++;else {if(r.due<=now)s.due++;else s.later++;if(r.stage>=3)s.learned++;}}
  return s;
 }
+function progress(words,state,now=Date.now()){
+ const result={...stats(words,state,now),seen:0,reviews:0};
+ for(const w of words){const r=state.records[w.id];if(r){result.seen++;result.reviews+=r.reviews;}}
+ return result;
+}
 function queue(words,state,scope='all',now=Date.now(),limit=8){
  const selected=words.filter(w=>inScope(w,scope));
  const due=selected.filter(w=>state.records[w.id]?.due<=now).sort((a,b)=>state.records[a.id].due-state.records[b.id].due);
@@ -43,5 +48,5 @@ function rate(state,words,rating,now=Date.now()){
  const id=s.ids[s.index];if(!words.some(w=>w.id===id))return null;
  return {...state,records:{...state.records,[id]:schedule(state.records[id],rating,now)},session:{...s,index:s.index+1,revealed:false}};
 }
-return {DAY,INTERVALS,fresh,normalise,audioURL,searchKey,validWord,inScope,stats,queue,schedule,rate};
+return {DAY,INTERVALS,fresh,normalise,audioURL,searchKey,validWord,inScope,stats,progress,queue,schedule,rate};
 });
