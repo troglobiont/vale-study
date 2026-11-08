@@ -1,7 +1,7 @@
 (() => {
 'use strict';
 const BOOK=window.VALE_BOOK, CORE=window.ValeCore, AVATAR=window.ValeAvatar, STORE='vale-study-book-v02';
-const APP_VERSION='0.11.0';
+const APP_VERSION='0.12.0';
 const NATIVE=window.VALE_NATIVE===true;
 const ANDROID_APK='https://github.com/troglobiont/vale-study/releases/latest/download/Vale-Study-Android.apk';
 const LANGS=['ru','sr','en'];
@@ -103,6 +103,7 @@ const S={
  installFile:["Для установки открой опубликованную HTTPS-ссылку в браузере устройства. Локальный HTML служит отдельной автономной копией.", "За инсталацију отвори објављену HTTPS везу у прегледачу уређаја. Локални HTML је засебна копија за рад ван мреже.", "To install, open the published HTTPS link in your device’s browser. The local HTML is a separate offline copy."],
  tagline:['Каждый шаг — открытие','Сваки корак — откриће','A little further, every day'],
  reviewIndependent:['Самостоятельно в повторении','Самостално при понављању','Independent in review'],
+ garden:['Мой сад','Моја башта','My garden'],
  skip:['К содержанию','На садржај','Skip to content'],book:['Учебник','Уџбеник','Textbook'],mathTest:['Тест','Тест','Test'],rules:['Правила','Правила','Rules'],
  topic:['Площадь · 4-й разред','Површина · 4. разред','Area · Grade 4'],hero:['От клетки до квадратного километра.','Од квадратића до квадратног километра.','From a square to a square kilometre.'],
  heroText:['Твой учебник, только удобнее: решай задания, проверяй ответы и возвращайся к тому, что хочется повторить.','Твој уџбеник, само практичнији: решавај задатке, проверавај одговоре и врати се ономе што желиш да поновиш.','Your textbook, made easier to use: solve the tasks, check your answers and return to anything you want to practise.'],
@@ -148,11 +149,12 @@ const S={
 };
 let broken=null,saveError=false,avatar='',avatarBusy=false,avatarError='';
 try{avatar=AVATAR.read(localStorage);}catch{}
-const fresh=()=>({schemaVersion:1,locale:'ru',size:8,large:false,records:{},session:null,english:window.ValeEnglishCore.fresh(),mathTests:window.ValeMathTestCore?.fresh()});
+const fresh=()=>({schemaVersion:1,locale:'ru',size:8,large:false,records:{},session:null,english:window.ValeEnglishCore.fresh(),mathTests:window.ValeMathTestCore?.fresh(),garden:window.ValeGardenCore?.fresh()});
 let state=fresh();
 try{const raw=localStorage.getItem(STORE);if(raw){const parsed=JSON.parse(raw);if(parsed.schemaVersion!==1||!parsed.records||!LANGS.includes(parsed.locale)||typeof parsed.records!=='object')throw Error();state={...fresh(),...parsed};}}catch(e){try{broken=localStorage.getItem(STORE)||'unavailable';}catch{broken='unavailable';}}
 state.english=window.ValeEnglishCore.normalise(state.english);
 if(window.ValeMathTestCore)state.mathTests=window.ValeMathTestCore.normalise(state.mathTests);
+if(window.ValeGardenCore)state.garden=window.ValeGardenCore.normalise(state.garden,window.ValeMathTestCore.collection(state.mathTests));
 let feedback={},ruleOpen=false,scratchOpen=false,waitingWorker=null,registration=null,canvasObserver=null,installPrompt=null,installedNow=false,offlineReady=false;
 const $=q=>document.querySelector(q),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const lang=()=>LANGS.includes(state.locale)?state.locale:'ru';
@@ -186,9 +188,9 @@ function shell(content,active='book'){
  canvasObserver?.disconnect();
  const total=counts();
  document.documentElement.lang=lang()==='sr'?'sr-Cyrl':lang();
- document.title=`Valja Study · ${active==='parent'?t('parent'):active==='profile'?t('profile'):active==='english'?t('english'):t('mathematics')}`;
+ document.title=`Valja Study · ${active==='garden'?t('garden'):active==='parent'?t('parent'):active==='profile'?t('profile'):active==='english'?t('english'):t('mathematics')}`;
  document.body.classList.toggle('large-text',!!state.large);
- $('#app').innerHTML=`<a class="skip" href="#main-content">${t('skip')}</a><div class="shell"><header class="topbar"><a href="#home" class="brand" aria-label="Valja Study"><span class="brand-icon" aria-hidden="true">▦</span><span>Valja Study<small>${t('tagline')}</small></span></a><div class="head-actions"><div class="lang" role="group" aria-label="Русский / Српски / English">${LANGS.map((l,i)=>`<button data-lang="${l}" lang="${l==='sr'?'sr-Cyrl':l}" title="${['Русский','Српски','English'][i]}" aria-label="${['Русский','Српски','English'][i]}" class="${lang()===l?'active':''}" aria-pressed="${lang()===l}">${['ру','ср','en'][i]}</button>`).join('')}</div><a href="#profile" class="header-avatar" aria-label="${t('profile')}" title="${t('profile')}">${avatarImage(true)}</a></div></header><nav class="top-tabs" aria-label="${t('subjectNavigation')}">${SUBJECTS.map(subject=>`<a class="${active===subject.active?'active':''}" ${active===subject.active?'aria-current="page"':''} href="${subject.href}">${t(subject.label)}</a>`).join('')}<a class="${active==='parent'?'active':''}" ${active==='parent'?'aria-current="page"':''} href="#stats">${t('parent')}</a><div class="right offline-chip"><span class="dot"></span>${t('localShort')}</div></nav>${broken?`<div class="save-warning" role="alert">${t('corrupt')}</div>`:saveError?`<div class="save-warning" role="alert">${t('saveFail')}</div>`:''}<div class="update-box" data-update-banner hidden><span data-update-status></span><button class="secondary" data-action="update">${t('updateNow')}</button></div><main id="main-content" class="main" tabindex="-1">${content}</main><footer><span>Valja Study · ${t('version',{v:APP_VERSION})} · ${active==='english'?'Smiles 4':active==='book'?t('pages',{p:BOOK.sourcePages}):t('localShort')}</span><span><a class="install-link" href="#install">${t('install')}</a> · ${t('local')} · <button data-action="update">${t('updateNow')}</button></span></footer></div>`;
+ $('#app').innerHTML=`<a class="skip" href="#main-content">${t('skip')}</a><div class="shell"><header class="topbar"><a href="#home" class="brand" aria-label="Valja Study"><span class="brand-icon" aria-hidden="true">▦</span><span>Valja Study<small>${t('tagline')}</small></span></a><div class="head-actions"><div class="lang" role="group" aria-label="Русский / Српски / English">${LANGS.map((l,i)=>`<button data-lang="${l}" lang="${l==='sr'?'sr-Cyrl':l}" title="${['Русский','Српски','English'][i]}" aria-label="${['Русский','Српски','English'][i]}" class="${lang()===l?'active':''}" aria-pressed="${lang()===l}">${['ру','ср','en'][i]}</button>`).join('')}</div><a href="#profile" class="header-avatar" aria-label="${t('profile')}" title="${t('profile')}">${avatarImage(true)}</a></div></header><nav class="top-tabs" aria-label="${t('subjectNavigation')}">${SUBJECTS.map(subject=>`<a class="${active===subject.active?'active':''}" ${active===subject.active?'aria-current="page"':''} href="${subject.href}">${t(subject.label)}</a>`).join('')}<a class="${active==='garden'?'active':''}" ${active==='garden'?'aria-current="page"':''} href="#garden">${t('garden')}</a><a class="${active==='parent'?'active':''}" ${active==='parent'?'aria-current="page"':''} href="#stats">${t('parent')}</a><div class="right offline-chip"><span class="dot"></span>${t('localShort')}</div></nav>${broken?`<div class="save-warning" role="alert">${t('corrupt')}</div>`:saveError?`<div class="save-warning" role="alert">${t('saveFail')}</div>`:''}<div class="update-box" data-update-banner hidden><span data-update-status></span><button class="secondary" data-action="update">${t('updateNow')}</button></div><main id="main-content" class="main" tabindex="-1">${content}</main><footer><span>Valja Study · ${t('version',{v:APP_VERSION})} · ${active==='english'?'Smiles 4':active==='book'?t('pages',{p:BOOK.sourcePages}):t('localShort')}</span><span><a class="install-link" href="#install">${t('install')}</a> · ${t('local')} · <button data-action="update">${t('updateNow')}</button></span></footer></div>`;
  $('#close-source').setAttribute('aria-label',t('close'));
  paintUpdates();
  return total;
@@ -379,7 +381,8 @@ function updatesView(){profileView();}
 
 const english=window.ValeEnglish.create({shell,lang,getState:()=>state.english,saveState:next=>{const old=state.english;state.english=next;if(persist())return true;state.english=old;return false;},toast});
 const mathTest=window.ValeMathTestUI?.create({shell,lang,chapter,mathNav,tabs:chapterTabs,parse:CORE.parseInteger,getState:()=>state.mathTests,saveState:next=>{const old=state.mathTests;state.mathTests=next;if(persist())return true;state.mathTests=old;return false;}});
-function render(){const r=route();english.stopMedia();if(r[0]==='updates')updatesView();else if(r[0]==='math'&&r[1]==='area')areaView();else if(r[0]==='english')english.render(r.slice(1));else if(r[0]==='task')taskView(r[1]);else if(r[0]==='chapter'&&r[2]==='test'&&mathTest)mathTest.render(r[1],r[3],r[4]);else if(r[0]==='chapter')chapterView(r[1],r[2]);else if(r[0]==='stats'||r[0]==='parent')statisticsView(r[1]);else if(r[0]==='rules')areaView();else if(r[0]==='install')installView();else if(r[0]==='profile')profileView();else if(r[0]==='summary')summary();else home();}
+const garden=window.ValeGardenUI?.create({shell,lang,getState:()=>state.garden,getCrystals:()=>window.ValeMathTestCore.collection(state.mathTests),saveState:next=>{const old=state.garden;state.garden=next;if(persist())return true;state.garden=old;return false;}});
+function render(){const r=route();english.stopMedia();if(r[0]==='garden'&&garden)garden.render();else if(r[0]==='updates')updatesView();else if(r[0]==='math'&&r[1]==='area')areaView();else if(r[0]==='english')english.render(r.slice(1));else if(r[0]==='task')taskView(r[1]);else if(r[0]==='chapter'&&r[2]==='test'&&mathTest)mathTest.render(r[1],r[3],r[4]);else if(r[0]==='chapter')chapterView(r[1],r[2]);else if(r[0]==='stats'||r[0]==='parent')statisticsView(r[1]);else if(r[0]==='rules')areaView();else if(r[0]==='install')installView();else if(r[0]==='profile')profileView();else if(r[0]==='summary')summary();else home();}
 
 function currentTask(){const r=route();return r[0]==='task'?taskById(r[1]):null;}
 function submit(){
@@ -428,6 +431,7 @@ document.addEventListener('click',async e=>{
  const locale=e.target.closest('[data-lang]');if(locale){state.locale=locale.dataset.lang;persist();render();toast(t('langSaved'));return;}
  const open=e.target.closest('[data-open-task]');if(open){e.preventDefault();const q=taskById(open.dataset.openTask);start(q.chapter,false,q.id);return;}
  const el=e.target.closest('[data-action]');if(!el)return;
+ if(garden?.handleClick(el))return;
  if(mathTest?.handleClick(el))return;
  if(english.handleClick(el))return;
  const action=el.dataset.action,q=currentTask(),r=q?record(q.id):null;

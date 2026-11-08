@@ -1,13 +1,13 @@
 {
   "name": "vale-study-mobile",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@11.25.0",
   "scripts": {
     "build": "node scripts/build.mjs",
     "sync": "pnpm build && cap sync",
-    "test": "node ../tests/core.test.cjs && node ../tests/avatar.test.cjs && node ../tests/english.test.cjs && node ../tests/updates.test.cjs && node ../tests/word-audio.test.cjs && node ../tests/navigation.test.cjs && node ../tests/practice.test.cjs && node ../tests/math-tests.test.cjs && node scripts/check.mjs",
+    "test": "node ../tests/core.test.cjs && node ../tests/avatar.test.cjs && node ../tests/english.test.cjs && node ../tests/updates.test.cjs && node ../tests/word-audio.test.cjs && node ../tests/navigation.test.cjs && node ../tests/practice.test.cjs && node ../tests/math-tests.test.cjs && node ../tests/garden.test.cjs && node scripts/check.mjs",
     "package:update": "node scripts/package-update.mjs"
   },
   "dependencies": {
