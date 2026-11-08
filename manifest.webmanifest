@@ -1,0 +1,26 @@
+{
+  "id": "./",
+  "name": "Vale Study",
+  "short_name": "Vale Study",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f8fc",
+  "theme_color": "#1e70eb",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "description": "Area exercises from the supplied textbook. Русский / Српски / English.",
+  "lang": "ru"
+}

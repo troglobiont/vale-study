@@ -1,0 +1,4 @@
+.DS_Store
+*.log
+Vale_Study_progress*.json
+tests/core_test_result.json
