@@ -1,0 +1,33 @@
+name: Publish Vale Study
+on:
+  push:
+    branches: [main]
+    paths: ['*.js', '*.css', '*.json', 'index.html', 'manifest.webmanifest', 'icon*', 'assets/**', '.github/workflows/pages.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: vale-study-pages
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - name: Prepare app files
+        run: |
+          mkdir dist
+          cp index.html style.css app.js core.js avatar.js book.js book.json english-data.js english-core.js english.js updates.js version.json sw.js manifest.webmanifest icon.svg icon-180.png icon-192.png icon-512.png .nojekyll dist/
+          cp -R assets dist/assets
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - name: Publish app
+        id: deployment
+        uses: actions/deploy-pages@v5
