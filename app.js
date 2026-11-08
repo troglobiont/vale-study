@@ -1,7 +1,7 @@
 (() => {
 'use strict';
 const BOOK=window.VALE_BOOK, CORE=window.ValeCore, AVATAR=window.ValeAvatar, STORE='vale-study-book-v02';
-const APP_VERSION='0.7.0';
+const APP_VERSION='0.7.1';
 const NATIVE=window.VALE_NATIVE===true;
 const ANDROID_APK='https://github.com/troglobiont/vale-study/releases/latest/download/Vale-Study-Android.apk';
 const LANGS=['ru','sr','en'];
@@ -312,7 +312,7 @@ function updateMessage(){
 function paintUpdates(){
  const u=updater.state(),busy=['checking','downloading','applying'].includes(u.status);
  document.querySelectorAll('[data-update-status]').forEach(el=>{el.textContent=updateMessage();el.classList.toggle('update-error',u.status==='error');});
- document.querySelectorAll('[data-update-banner]').forEach(el=>{el.hidden=u.status!=='available';});
+ document.querySelectorAll('[data-update-banner]').forEach(el=>{el.hidden=route()[0]==='updates'||!['available','checking','downloading','applying','error'].includes(u.status);});
  document.querySelectorAll('[data-action="update"],[data-action="apply-update"]').forEach(el=>{el.disabled=busy;el.setAttribute('aria-busy',String(busy));});
  document.querySelectorAll('[data-update-progress]').forEach(el=>{el.hidden=!(NATIVE&&u.status==='downloading');el.value=u.progress;});
  document.querySelectorAll('[data-update-installer]').forEach(el=>{el.hidden=!(u.status==='error'&&u.error==='native-required');});
@@ -382,7 +382,7 @@ document.addEventListener('click',async e=>{
  if(action==='source'){openSource(el.dataset.page);return;}
  if(action==='export'){const data=broken||JSON.stringify({application:'Vale Study',appVersion:APP_VERSION,exportVersion:1,avatarIncluded:false,state},null,2);if(NATIVE){try{await window.ValeNative.exportJSON(data);}catch{toast(t('exportFail'));}return;}const blob=new Blob([data],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Vale_Study_progress.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);return;}
  if(action==='reset'){if(!confirm(t('resetConfirm')))return;try{localStorage.removeItem(STORE);AVATAR.remove(localStorage);avatar='';avatarError='';state=fresh();broken=null;saveError=false;feedback={};location.hash='home';render();toast(t('deleted'));}catch{toast(t('saveFail'));}return;}
- if(action==='update'||action==='apply-update'){await updater.update();return;}
+ if(action==='update'||action==='apply-update'){const result=await updater.update();if(result.status==='current'||result.status==='error')toast(updateMessage());return;}
  if(!q||!r)return;
  if(action==='choose'&&!r.locked){r.draft.choice=el.dataset.value;delete feedback[q.id];persist();render();}
  if(action==='sort-add'&&!r.locked){r.draft.order||=[];if(!r.draft.order.includes(el.dataset.value))r.draft.order.push(el.dataset.value);delete feedback[q.id];persist();render();}
