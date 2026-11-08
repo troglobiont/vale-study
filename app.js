@@ -1,7 +1,7 @@
 (() => {
 'use strict';
 const BOOK=window.VALE_BOOK, CORE=window.ValeCore, AVATAR=window.ValeAvatar, STORE='vale-study-book-v02';
-const APP_VERSION='0.7.1';
+const APP_VERSION='0.7.2';
 const NATIVE=window.VALE_NATIVE===true;
 const ANDROID_APK='https://github.com/troglobiont/vale-study/releases/latest/download/Vale-Study-Android.apk';
 const LANGS=['ru','sr','en'];
@@ -24,7 +24,7 @@ const S={
  savedHere:['Ответы, словарник и аватарка сохраняются на этом устройстве. Обновление приложения не синхронизирует их с другим устройством.','Одговори, речник и слика чувају се на овом уређају. Ажурирање их не синхронизује са другим уређајем.','Answers, vocabulary and your picture are saved on this device. App updates do not sync them to another device.'],
 
  mathematics:['Математика','Математика','Mathematics'],english:['Английский','Енглески','English'],
- nativeIntro:["Отдельное приложение с учебником внутри. Математика и словарник доступны без интернета. Для записей учебника нужна сеть.", "Засебна апликација са уџбеником. Математика и речник раде без интернета. За аудио-снимке је потребна мрежа.", "A separate app with the textbook included. Maths and vocabulary work offline. Textbook audio needs internet."],
+ nativeIntro:["Отдельное приложение с учебником внутри. Математика и словарник доступны без интернета. Для озвучки нужна сеть.", "Засебна апликација са уџбеником. Математика и речник раде без интернета. За аудио-снимке је потребна мрежа.", "A separate app with the textbook included. Maths and vocabulary work offline. Audio needs internet."],
  downloadAPK:["Скачать приложение для Android", "Преузми Android апликацију", "Download the Android app"],
  androidAPKHelp:["Скачай APK, открой его и подтверди установку. Если Android попросит, разреши установку из этого источника. После установки запускай Vale Study из списка приложений.", "Преузми APK, отвори га и потврди инсталацију. Ако Android затражи, дозволи инсталацију из тог извора. Затим отвори Vale Study са списка апликација.", "Download the APK, open it and confirm installation. If Android asks, allow installation from this source. Then launch Vale Study from your apps list."],
  iosPending:["Версия для iPad подготовлена как проект. Установочная ссылка появится после подписи и публикации через Apple.", "Верзија за iPad је припремљена као пројекат. Веза за инсталацију ће бити доступна после потписивања и објављивања преко Apple-а.", "The iPad project is prepared. An install link will be available after Apple signing and distribution."],
@@ -61,7 +61,7 @@ const S={
  androidStep1:["Открой эту ссылку в Chrome на Android.", "Отвори ову везу у Chrome-у на Android-у.", "Open this link in Chrome on Android."],
  androidStep2:["Нажми «Установить приложение» здесь, если эта кнопка доступна. Или открой меню ⋮ браузера.", "Додирни „Инсталирај апликацију” овде ако је дугме доступно. Или отвори мени ⋮ прегледача.", "Tap Install the app here if the button is available, or open the browser’s ⋮ menu."],
  androidStep3:["Выбери «Установить приложение» или «Добавить на главный экран» и подтверди добавление. Название пункта зависит от браузера.", "Изабери „Инсталирај апликацију” или „Додај на почетни екран” и потврди. Назив ставке зависи од прегледача.", "Choose Install app or Add to Home screen and confirm. The wording depends on the browser."],
- offlineReady:["Математика и словарник сохранены для работы без интернета. Записи учебника требуют сети.", "Математика и речник су сачувани за рад ван мреже. Аудио-снимци захтевају интернет.", "Maths and vocabulary are saved for offline use. Textbook audio requires internet."],
+ offlineReady:["Математика и словарник сохранены для работы без интернета. Озвучка требует сети.", "Математика и речник су сачувани за рад ван мреже. Аудио-снимци захтевају интернет.", "Maths and vocabulary are saved for offline use. Audio requires internet."],
  offlinePreparing:["При первом открытии дождись загрузки всех материалов, прежде чем отключать интернет.", "При првом отварању сачекај да се сви материјали учитају пре искључивања интернета.", "On your first visit, let all materials finish loading before going offline."],
  installFile:["Для установки открой опубликованную HTTPS-ссылку в браузере устройства. Локальный HTML служит отдельной автономной копией.", "За инсталацију отвори објављену HTTPS везу у прегледачу уређаја. Локални HTML је засебна копија за рад ван мреже.", "To install, open the published HTTPS link in your device’s browser. The local HTML is a separate offline copy."],
  tagline:['Каждый шаг — открытие','Сваки корак — откриће','A little further, every day'],

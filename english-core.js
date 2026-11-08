@@ -6,6 +6,7 @@ function audioURL(raw){
  if(!String(raw||'').trim())return '';
  try{const u=new URL(String(raw).trim());return u.protocol==='https:'&&!u.username&&!u.password?u.href:null;}catch{return null;}
 }
+function searchKey(value){return String(value||'').normalize('NFKD').replace(/[\u0300-\u036f’'‘`]/g,'').toLocaleLowerCase().trim();}
 function validWord(w){return w&&typeof w.id==='string'&&/^custom-[\w-]+$/.test(w.id)&&typeof w.en==='string'&&w.en.trim().length>0&&w.en.length<=80&&typeof w.ru==='string'&&w.ru.trim().length>0&&w.ru.length<=160&&typeof w.sr==='string'&&w.sr.length<=160&&audioURL(w.audio)!==null;}
 function normalise(input){
  const out=fresh();if(!input||input.schemaVersion!==1)return out;
@@ -42,5 +43,5 @@ function rate(state,words,rating,now=Date.now()){
  const id=s.ids[s.index];if(!words.some(w=>w.id===id))return null;
  return {...state,records:{...state.records,[id]:schedule(state.records[id],rating,now)},session:{...s,index:s.index+1,revealed:false}};
 }
-return {DAY,INTERVALS,fresh,normalise,audioURL,validWord,inScope,stats,queue,schedule,rate};
+return {DAY,INTERVALS,fresh,normalise,audioURL,searchKey,validWord,inScope,stats,queue,schedule,rate};
 });
