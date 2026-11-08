@@ -37,3 +37,6 @@
 @media(max-width:760px){.header-link{display:none}.head-actions{gap:10px}.profile-card{padding:28px 22px}}
 @media(max-width:430px){.head-actions{gap:6px}.header-avatar{width:34px;height:34px;min-width:34px}.lang button{min-width:31px;padding:7px 6px}.profile-picture{width:128px;height:128px}}
 @media(max-width:350px){.brand{font-size:16px;gap:5px}.lang button{min-width:27px;padding:7px 5px}.header-avatar{width:32px;height:32px;min-width:32px}}
+
+body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+.web-alternative{margin-top:25px}.web-alternative summary{cursor:pointer;font-weight:700}.install-layout .primary{display:inline-block;margin-top:12px}

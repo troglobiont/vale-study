@@ -2,3 +2,17 @@
 *.log
 Vale_Study_progress*.json
 tests/core_test_result.json
+node_modules/
+mobile/www/
+mobile/android/.gradle/
+mobile/android/build/
+mobile/android/app/build/
+mobile/android/local.properties
+mobile/ios/App/App/public/
+mobile/ios/App/App/capacitor.config.json
+mobile/ios/App/App.xcodeproj/xcuserdata/
+mobile/ios/App/DerivedData/
+*.keystore
+*.jks
+*.p12
+*.mobileprovision

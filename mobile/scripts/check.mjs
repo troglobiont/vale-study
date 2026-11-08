@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {readFile,access} from 'node:fs/promises';
+const config=JSON.parse(await readFile(new URL('../capacitor.config.json',import.meta.url)));
+assert.equal(config.appId,'io.github.troglobiont.valestudy');
+assert.equal(config.webDir,'www');
+assert.equal(config.server?.url,undefined,'Native app must load bundled files, not the website');
+const html=await readFile(new URL('../www/index.html',import.meta.url),'utf8');
+assert(html.indexOf('native.js')<html.indexOf('app.js'));
+assert(!html.includes('rel="manifest"'));
+await access(new URL('../www/avatar.js',import.meta.url));
+const book=JSON.parse(await readFile(new URL('../www/book.json',import.meta.url)));
+assert.equal(book.tasks.length,151);
+console.log('Native offline bundle checks passed');

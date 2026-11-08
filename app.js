@@ -1,8 +1,21 @@
 (() => {
 'use strict';
 const BOOK=window.VALE_BOOK, CORE=window.ValeCore, AVATAR=window.ValeAvatar, STORE='vale-study-book-v02';
+const NATIVE=window.VALE_NATIVE===true;
+const ANDROID_APK='https://github.com/troglobiont/vale-study/releases/latest/download/Vale-Study-Android.apk';
 const LANGS=['ru','sr','en'];
 const S={
+ nativeIntro:["Отдельное приложение с учебником внутри. После установки занятия доступны без браузера и интернета.", "Засебна апликација са уџбеником. После инсталације вежбај без прегледача и интернета.", "A separate app with the textbook included. Study without a browser or internet after installation."],
+ downloadAPK:["Скачать приложение для Android", "Преузми Android апликацију", "Download the Android app"],
+ androidAPKHelp:["Скачай APK, открой его и подтверди установку. Если Android попросит, разреши установку из этого источника. После установки запускай Vale Study из списка приложений.", "Преузми APK, отвори га и потврди инсталацију. Ако Android затражи, дозволи инсталацију из тог извора. Затим отвори Vale Study са списка апликација.", "Download the APK, open it and confirm installation. If Android asks, allow installation from this source. Then launch Vale Study from your apps list."],
+ iosPending:["Версия для iPad подготовлена как проект. Установочная ссылка появится после подписи и публикации через Apple.", "Верзија за iPad је припремљена као пројекат. Веза за инсталацију ће бити доступна после потписивања и објављивања преко Apple-а.", "The iPad project is prepared. An install link will be available after Apple signing and distribution."],
+ iosNeedsApple:["Для установки через TestFlight нужен Apple Developer. Сейчас готовой iOS-установки нет.", "За инсталацију преко TestFlight-а потребан је Apple Developer. iOS инсталација још није доступна.", "TestFlight installation needs Apple Developer. An iOS installer is not available yet."],
+ webAlternative:["Открыть как веб-приложение", "Отвори као веб-апликацију", "Use as a web app"],
+ nativeInstalled:["Это установленное приложение", "Ово је инсталирана апликација", "This is the installed app"],
+ nativeUpdate:["Обновления Android устанавливаются новым APK поверх приложения. На iPad обновления будут через TestFlight или App Store.", "Android се ажурира новим APK-ом преко постојеће апликације. На iPad-у ће ажурирања бити преко TestFlight-а или App Store-а.", "Update Android by installing the newer APK over the app. iPad updates will use TestFlight or the App Store."],
+ nativeData:["Приложение и сайт хранят результаты отдельно. Данные не переносятся автоматически. Для Android-обновлений устанавливай новый APK поверх прежнего, не удаляя приложение.", "Апликација и сајт чувају резултате одвојено. Подаци се не преносе аутоматски. За Android ажурирање инсталирај нови APK преко постојеће апликације, без брисања.", "The app and website store results separately; data is not transferred automatically. For Android updates, install the newer APK over the existing app without uninstalling."],
+ exportFail:["Не удалось открыть сохранение файла. Попробуй ещё раз.", "Чување датотеке не може да се отвори. Покушај поново.", "Could not open the file export. Please try again."],
+
  profile:["Моя аватарка", "Моја слика", "My picture"],
  yourAvatar:["Твоя фотография", "Твоја фотографија", "Your photo"],
  avatarChoose:["Выбрать фото", "Изабери фотографију", "Choose a photo"],
@@ -85,7 +98,7 @@ try{const raw=localStorage.getItem(STORE);if(raw){const parsed=JSON.parse(raw);i
 let feedback={},ruleOpen=false,scratchOpen=false,waitingWorker=null,registration=null,canvasObserver=null,installPrompt=null,installedNow=false,offlineReady=false;
 const $=q=>document.querySelector(q),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const lang=()=>LANGS.includes(state.locale)?state.locale:'ru';
-const isInstalled=()=>installedNow||matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+const isInstalled=()=>NATIVE||installedNow||matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
 const tx=obj=>typeof obj==='string'?obj:obj?.[lang()]||obj?.ru||'';
 function t(k,vars={}){let v=S[k]?.[LANGS.indexOf(lang())]||k;for(const[key,value]of Object.entries(vars))v=v.replaceAll('{'+key+'}',value);return v;}
 const fnum=s=>String(s).replace(/\B(?=(\d{3})+(?!\d))/g,' ');
@@ -250,8 +263,8 @@ function rulesView(){shell(`<div class="eyebrow">${t('topic')}</div><h1 class="p
 
 function installView(){
  const ready=isInstalled();
- shell(`<div class="task-shell"><div class="breadcrumb"><a href="#home">${t('home')}</a><span>›</span><span>${t('install')}</span></div><div class="eyebrow">Vale Study</div><h1 class="page-title">${t('installTitle')}</h1><p class="intro">${t('installIntro')}</p><section class="install-banner"><div><h2>${t(ready?'installed':'installGuide')}</h2><p>${t('ownPace')}</p></div>${installPrompt&&!ready?`<button class="primary" data-action="install-native">↓ ${t('installNative')}</button>`:''}</section>${location.protocol==='file:'||window.VALE_STANDALONE?`<div class="feedback info">${t('installFile')}</div>`:''}<div class="install-layout"><section class="panel"><div class="install-icon" aria-hidden="true">▯</div><h2>iPad · Safari</h2><ol class="install-steps"><li>${t('ipadStep1')}</li><li>${t('ipadStep2')}</li><li>${t('ipadStep3')}</li></ol></section><section class="panel"><div class="install-icon" aria-hidden="true">▱</div><h2>Android · Chrome</h2><ol class="install-steps"><li>${t('androidStep1')}</li><li>${t('androidStep2')}</li><li>${t('androidStep3')}</li></ol></section></div><p class="install-status" role="status">${t(offlineReady?'offlineReady':'offlinePreparing')}</p><p class="small-note">${t('noSync')}</p><a class="primary" href="#home">${t('home')} →</a></div>`);
-}
+ shell(`<div class="task-shell"><div class="breadcrumb"><a href="#home">${t('home')}</a><span>›</span><span>${t('install')}</span></div><div class="eyebrow">Vale Study · ${t('version',{v:BOOK.version})}</div><h1 class="page-title">${t('installTitle')}</h1><p class="intro">${t('nativeIntro')}</p>${NATIVE?`<section class="install-banner"><div><h2>${t('nativeInstalled')}</h2><p>${t('nativeUpdate')}</p></div></section>`:''}<div class="install-layout"><section class="panel"><div class="install-icon" aria-hidden="true">▱</div><h2>Android</h2><p class="helper">${t('androidAPKHelp')}</p><a class="primary" href="${ANDROID_APK}" target="_blank" rel="noopener">↓ ${t('downloadAPK')}</a></section><section class="panel"><div class="install-icon" aria-hidden="true">▯</div><h2>iOS · iPadOS</h2><p>${t('iosPending')}</p><p class="small-note">${t('iosNeedsApple')}</p></section></div><p class="small-note">${t('nativeData')}</p>${!NATIVE?`<details class="panel web-alternative"><summary>${t('webAlternative')}</summary><p class="helper">${t('installIntro')}</p>${installPrompt&&!ready?`<button class="secondary" data-action="install-native">${t('installNative')}</button>`:''}<div class="install-layout"><section><h2>iPad · Safari</h2><ol class="install-steps"><li>${t('ipadStep1')}</li><li>${t('ipadStep2')}</li><li>${t('ipadStep3')}</li></ol></section><section><h2>Android · Chrome</h2><ol class="install-steps"><li>${t('androidStep1')}</li><li>${t('androidStep2')}</li><li>${t('androidStep3')}</li></ol></section></div><p class="install-status" role="status">${t(offlineReady?'offlineReady':'offlinePreparing')}</p></details>`:''}<a class="quiet" href="#home">← ${t('home')}</a></div>`);
+ }
 
 function render(){const r=route();if(r[0]==='task')taskView(r[1]);else if(r[0]==='chapter')chapterView(r[1]);else if(r[0]==='parent')parentView();else if(r[0]==='rules')rulesView();else if(r[0]==='install')installView();else if(r[0]==='profile')profileView();else if(r[0]==='summary')summary();else home();}
 function currentTask(){const r=route();return r[0]==='task'?taskById(r[1]):null;}
@@ -307,9 +320,9 @@ document.addEventListener('click',async e=>{
  if(action==='new'){state.session=null;start();return;}
  if(action==='review'){start(null,true);return;}
  if(action==='source'){openSource(el.dataset.page);return;}
- if(action==='export'){const data=broken||JSON.stringify({application:'Vale Study',appVersion:BOOK.version,exportVersion:1,avatarIncluded:false,state},null,2);const blob=new Blob([data],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Vale_Study_progress.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);return;}
+ if(action==='export'){const data=broken||JSON.stringify({application:'Vale Study',appVersion:BOOK.version,exportVersion:1,avatarIncluded:false,state},null,2);if(NATIVE){try{await window.ValeNative.exportJSON(data);}catch{toast(t('exportFail'));}return;}const blob=new Blob([data],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Vale_Study_progress.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);return;}
  if(action==='reset'){if(!confirm(t('resetConfirm')))return;try{localStorage.removeItem(STORE);AVATAR.remove(localStorage);avatar='';avatarError='';state=fresh();broken=null;saveError=false;feedback={};location.hash='home';render();toast(t('deleted'));}catch{toast(t('saveFail'));}return;}
- if(action==='update'){if(!navigator.onLine){toast(t('offline'));return;}if(!registration){toast(t('pwaLocal'));return;}try{await registration.update();toast(t('updated'));}catch{toast(t('offline'));}return;}
+ if(action==='update'){if(NATIVE){location.hash='install';return;}if(!navigator.onLine){toast(t('offline'));return;}if(!registration){toast(t('pwaLocal'));return;}try{await registration.update();toast(t('updated'));}catch{toast(t('offline'));}return;}
  if(action==='apply-update'){if(state.session&&!state.session.ended){toast(t('updateLater'));return;}if(!persist())return;waitingWorker?.postMessage({type:'ACTIVATE'});return;}
  if(!q||!r)return;
  if(action==='choose'&&!r.locked){r.draft.choice=el.dataset.value;delete feedback[q.id];persist();render();}
@@ -341,7 +354,7 @@ function setupCanvas(id){
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;if(route()[0]==='install')render();});
 window.addEventListener('appinstalled',()=>{installedNow=true;installPrompt=null;render();toast(t('installed'));});
 let reloading=false;
-if('serviceWorker' in navigator&&location.protocol!=='file:'&&!window.VALE_STANDALONE){
+if(!NATIVE&&'serviceWorker' in navigator&&location.protocol!=='file:'&&!window.VALE_STANDALONE){
  navigator.serviceWorker.register('sw.js').then(reg=>{
   registration=reg;
   navigator.serviceWorker.ready.then(()=>{offlineReady=true;if(route()[0]==='install')render();});

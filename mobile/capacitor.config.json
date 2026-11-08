@@ -1,0 +1,9 @@
+{
+  "appId": "io.github.troglobiont.valestudy",
+  "appName": "Vale Study",
+  "webDir": "www",
+  "backgroundColor": "#f5f8fc",
+  "loggingBehavior": "none",
+  "android": {"allowMixedContent": false, "webContentsDebuggingEnabled": false},
+  "ios": {"contentInset": "automatic"}
+}
