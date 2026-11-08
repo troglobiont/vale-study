@@ -1,7 +1,7 @@
 (() => {
 'use strict';
 const BOOK=window.VALE_BOOK, CORE=window.ValeCore, AVATAR=window.ValeAvatar, STORE='vale-study-book-v02';
-const APP_VERSION='0.9.0';
+const APP_VERSION='0.10.0';
 const NATIVE=window.VALE_NATIVE===true;
 const ANDROID_APK='https://github.com/troglobiont/vale-study/releases/latest/download/Vale-Study-Android.apk';
 const LANGS=['ru','sr','en'];
@@ -103,13 +103,13 @@ const S={
  installFile:["Для установки открой опубликованную HTTPS-ссылку в браузере устройства. Локальный HTML служит отдельной автономной копией.", "За инсталацију отвори објављену HTTPS везу у прегледачу уређаја. Локални HTML је засебна копија за рад ван мреже.", "To install, open the published HTTPS link in your device’s browser. The local HTML is a separate offline copy."],
  tagline:['Каждый шаг — открытие','Сваки корак — откриће','A little further, every day'],
  reviewIndependent:['Самостоятельно в повторении','Самостално при понављању','Independent in review'],
- skip:['К содержанию','На садржај','Skip to content'],book:['Учебник','Уџбеник','Textbook'],rules:['Правила','Правила','Rules'],
+ skip:['К содержанию','На садржај','Skip to content'],book:['Учебник','Уџбеник','Textbook'],mathTest:['Тест','Тест','Test'],rules:['Правила','Правила','Rules'],
  topic:['Площадь · 4-й разред','Површина · 4. разред','Area · Grade 4'],hero:['От клетки до квадратного километра.','Од квадратића до квадратног километра.','From a square to a square kilometre.'],
  heroText:['Твой учебник, только удобнее: решай задания, проверяй ответы и возвращайся к тому, что хочется повторить.','Твој уџбеник, само практичнији: решавај задатке, проверавај одговоре и врати се ономе што желиш да поновиш.','Your textbook, made easier to use: solve the tasks, check your answers and return to anything you want to practise.'],
  begin:['Начать занятия','Почни вежбање','Start studying'],continue:['Продолжить','Настави','Continue'],ownPace:['Без таймера. В своём темпе.','Без тајмера. Својим темпом.','No timer. At your own pace.'],
  wholeBook:['Весь блок из учебника','Цела област из уџбеника','The whole textbook block'],chapterSub:['Шесть разделов · страницы 8–28','Шест делова · стране 8–28','Six sections · pages 8–28'],pages:['Стр. {p}','Стр. {p}','Pages {p}'],page:['Стр. {p}','Стр. {p}','Page {p}'],
  tasks:['{n} карточек','{n} картица','{n} cards'],doneOf:['Проверено {n} из {total}','Проверено {n} од {total}','Checked {n} of {total}'],
- sourceNote:['Только задания с присланных страниц. Новые упражнения не генерируются.','Само задаци са послатих страница. Не стварају се нови задаци.','Only tasks from the supplied pages. No new exercises are generated.'],
+ sourceNote:['«Задания» и «Правила» — из учебника. «Тест» — дополнительные упражнения по той же теме с новыми числами.','„Задаци” и „Правила” су из уџбеника. „Тест” садржи додатне задатке из исте области са новим бројевима.','Exercises and Rules come from the textbook. Test adds questions on the same topic with new numbers.'],
  local:['Сохранение на этом устройстве','Чување на овом уређају','Saved on this device'],localShort:['Локально','Локално','Local'],noSync:['История на iPad и Android хранится отдельно.','Историја на iPad-у и Android-у чува се одвојено.','History is stored separately on iPad and Android.'],
  version:['Версия {v}','Верзија {v}','Version {v}'],allSections:['Все разделы','Сви делови','All sections'],learn:['Вспомним правило','Подсетимо се правила','Remember the rule'],
  startChapter:['Начать {n} заданий','Почни {n} задатака','Start {n} tasks'],allCards:['Все задания раздела','Сви задаци у овом делу','All tasks in this section'],source:['Оригинал','Оригинал','Original'],close:['Закрыть','Затвори','Close'],
@@ -148,10 +148,11 @@ const S={
 };
 let broken=null,saveError=false,avatar='',avatarBusy=false,avatarError='';
 try{avatar=AVATAR.read(localStorage);}catch{}
-const fresh=()=>({schemaVersion:1,locale:'ru',size:8,large:false,records:{},session:null,english:window.ValeEnglishCore.fresh()});
+const fresh=()=>({schemaVersion:1,locale:'ru',size:8,large:false,records:{},session:null,english:window.ValeEnglishCore.fresh(),mathTests:window.ValeMathTestCore?.fresh()});
 let state=fresh();
 try{const raw=localStorage.getItem(STORE);if(raw){const parsed=JSON.parse(raw);if(parsed.schemaVersion!==1||!parsed.records||!LANGS.includes(parsed.locale)||typeof parsed.records!=='object')throw Error();state={...fresh(),...parsed};}}catch(e){try{broken=localStorage.getItem(STORE)||'unavailable';}catch{broken='unavailable';}}
 state.english=window.ValeEnglishCore.normalise(state.english);
+if(window.ValeMathTestCore)state.mathTests=window.ValeMathTestCore.normalise(state.mathTests);
 let feedback={},ruleOpen=false,scratchOpen=false,waitingWorker=null,registration=null,canvasObserver=null,installPrompt=null,installedNow=false,offlineReady=false;
 const $=q=>document.querySelector(q),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const lang=()=>LANGS.includes(state.locale)?state.locale:'ru';
@@ -221,14 +222,15 @@ function resumePanel(){
 }
 function topicContents(topic){
  const ids=topic.chapters.flatMap(ch=>BOOK.tasks.filter(q=>q.chapter===ch.id).map(q=>q.id)),c=counts(ids),total=ids.filter(id=>taskById(id).type!=='measurement').length;
- return `<section class="math-contents" data-math-topic="${topic.id}"><div class="topic-heading"><div><div class="eyebrow">${t('mathematics')}</div><h2>${t(topic.title)}</h2><p class="helper">${t(topic.description)}</p></div><span class="helper">${t('mathProgress',{n:c.done,total})}</span></div><div class="contents-grid">${topic.chapters.map((ch,i)=>{const qs=BOOK.tasks.filter(q=>q.chapter===ch.id),done=counts(qs.map(q=>q.id)).done,total=qs.filter(q=>q.type!=='measurement').length;return `<article class="contents-section"><div class="contents-section-head"><span class="chapter-icon ${ch.color}" aria-hidden="true">${ch.icon}</span><span class="chapter-number">${String(i+1).padStart(2,'0')}</span></div><h3><a href="#chapter/${ch.id}">${esc(tx(ch.title))}</a></h3><p class="helper">${t('pages',{p:ch.pages})} · ${t('mathProgress',{n:done,total})}</p><div class="contents-actions"><a class="secondary" href="#chapter/${ch.id}">${t('exercises')} →</a><a class="quiet" href="#chapter/${ch.id}/rules">${t('rules')}</a></div></article>`;}).join('')}</div></section>`;
+ return `<section class="math-contents" data-math-topic="${topic.id}"><div class="topic-heading"><div><div class="eyebrow">${t('mathematics')}</div><h2>${t(topic.title)}</h2><p class="helper">${t(topic.description)}</p></div><span class="helper">${t('mathProgress',{n:c.done,total})}</span></div><div class="contents-grid">${topic.chapters.map((ch,i)=>{const qs=BOOK.tasks.filter(q=>q.chapter===ch.id),done=counts(qs.map(q=>q.id)).done,total=qs.filter(q=>q.type!=='measurement').length;return `<article class="contents-section"><div class="contents-section-head"><span class="chapter-icon ${ch.color}" aria-hidden="true">${ch.icon}</span><span class="chapter-number">${String(i+1).padStart(2,'0')}</span></div><h3><a href="#chapter/${ch.id}">${esc(tx(ch.title))}</a></h3><p class="helper">${t('pages',{p:ch.pages})} · ${t('mathProgress',{n:done,total})}</p><div class="contents-actions"><a class="secondary" href="#chapter/${ch.id}">${t('exercises')} →</a><a class="quiet" href="#chapter/${ch.id}/rules">${t('rules')}</a><a class="quiet" href="#chapter/${ch.id}/test">${t('mathTest')}</a></div></article>`;}).join('')}</div></section>`;
 }
-function home(){shell(`<div class="subject-heading"><h1 class="page-title">${t('mathematics')}</h1><p class="intro">${t('mathIntro')}</p></div>${resumePanel()}${MATH_TOPICS.map(topicContents).join('')}<p class="small-note home-note">${t('sourceNote')}</p>`);}
-function areaView(){shell(`${mathNav()}<h1 class="page-title">${t('area')}</h1>${resumePanel()}${topicContents(MATH_TOPICS[0])}<p class="small-note home-note">${t('sourceNote')}</p>`);}
+function home(){shell(`<div class="subject-heading"><h1 class="page-title">${t('mathematics')}</h1><p class="intro">${t('mathIntro')}</p></div>${resumePanel()}${mathTest?.resumePanel()||''}${MATH_TOPICS.map(topicContents).join('')}<p class="small-note home-note">${t('sourceNote')}</p>`);}
+function areaView(){shell(`${mathNav()}<h1 class="page-title">${t('area')}</h1>${resumePanel()}${mathTest?.resumePanel()||''}${topicContents(MATH_TOPICS[0])}<p class="small-note home-note">${t('sourceNote')}</p>`);}
+function chapterTabs(id,active){return `<nav class="subject-tabs" aria-label="${t('sectionNavigation')}">${[['tasks','#chapter/'+id,'exercises'],['rules','#chapter/'+id+'/rules','rules'],['test','#chapter/'+id+'/test','mathTest']].map(([key,href,label])=>`<a href="${href}" class="${active===key?'active':''}" ${active===key?'aria-current="page"':''}>${t(label)}</a>`).join('')}</nav>`;}
 function chapterView(id,mode='tasks'){
  const ch=chapter(id);if(!ch)return home();
  const qs=BOOK.tasks.filter(q=>q.chapter===id),c=counts(qs.map(x=>x.id)),rules=mode==='rules';
- const tabs=`<nav class="subject-tabs" aria-label="${t('sectionNavigation')}"><a href="#chapter/${id}" class="${!rules?'active':''}" ${!rules?'aria-current="page"':''}>${t('exercises')}</a><a href="#chapter/${id}/rules" class="${rules?'active':''}" ${rules?'aria-current="page"':''}>${t('rules')}</a></nav>`;
+ const tabs=chapterTabs(id,rules?'rules':'tasks');
  const exercises=`<section class="panel"><div class="chapter-controls"><button class="primary" data-action="start" data-chapter="${id}">${t('startChapter',{n:Math.min(state.size,qs.filter(q=>!state.records[q.id]?.solved&&q.type!=='measurement').length||qs.filter(q=>q.type!=='measurement').length)})} →</button><button class="secondary" data-action="source" data-page="${qs[0].page}">${t('source')}</button></div><p class="small-note">${t('countHint',{n:state.size})}</p><h2>${t('allCards')}</h2><div class="all-tasks-list">${qs.map(q=>{const r=state.records[q.id];return `<a href="#task/${q.id}" data-open-task="${q.id}"><span class="status">${r?.solved?'✓':q.type==='measurement'?'⌖':'○'}</span><span>${esc(tx(q.prompt))}<span class="meta">${t('page',{p:q.page})} · ${titleNum(q)}</span></span></a>`;}).join('')}</div></section>`;
  const notes=`<section class="panel"><h2>${t('rules')}</h2><ul class="note-list">${BOOK.notes[id].map(n=>`<li>${esc(tx(n))}</li>`).join('')}</ul><a class="primary" href="#chapter/${id}">${t('exercises')} →</a><button class="quiet" data-action="source" data-page="${qs[0].page}">${t('source')}</button></section>`;
  shell(`${mathNav(ch)}<div class="breadcrumb"><a href="#math/area">${t('area')}</a><span>›</span><span>${t('pages',{p:ch.pages})}</span></div><h1 class="page-title">${esc(tx(ch.title))}</h1>${tabs}<div class="study-layout"><div class="study-main">${rules?notes:exercises}</div><aside class="panel aside-card"><div class="eyebrow">${t('solved')}</div><div class="big">${c.done}<span class="stat-denominator"> / ${qs.filter(q=>q.type!=='measurement').length}</span></div><div class="stat-list"><div><span>${t('independent')}</span><b>${c.independent}</b></div><div><span>${t('helped')}</span><b>${c.helped}</b></div><div><span>${t('corrected')}</span><b>${c.corrected}</b></div></div></aside></div>`);
@@ -334,7 +336,7 @@ function subjectStatsCard(subject){
 }
 function mathStatistics(){
  const c=counts();
- return `<p class="helper">${t('mathStatisticsNote')}</p>${metricTiles([['independent',c.independent],['helped',c.helped],['corrected',c.corrected],['shown',c.shown]])}<section class="panel"><h2>${t('firstAnswers')}: ${c.independent} / ${c.first}</h2><p class="helper">${t('firstDefinition')}</p><p class="small-note">${t('noScoreMeasure')}</p><div class="stat-list">${BOOK.chapters.map(ch=>{const cc=counts(BOOK.tasks.filter(q=>q.chapter===ch.id).map(q=>q.id));return `<div><a href="#chapter/${ch.id}">${esc(tx(ch.title))}</a><b>${cc.independent} / ${cc.first}</b></div>`;}).join('')}</div><div class="parent-actions"><button class="secondary" data-action="review">${t('review')}</button><a class="quiet" href="#home">${t('contents')}</a></div></section>`;
+ return `${mathTest?.statistics()||''}<p class="helper">${t('mathStatisticsNote')}</p>${metricTiles([['independent',c.independent],['helped',c.helped],['corrected',c.corrected],['shown',c.shown]])}<section class="panel"><h2>${t('firstAnswers')}: ${c.independent} / ${c.first}</h2><p class="helper">${t('firstDefinition')}</p><p class="small-note">${t('noScoreMeasure')}</p><div class="stat-list">${BOOK.chapters.map(ch=>{const cc=counts(BOOK.tasks.filter(q=>q.chapter===ch.id).map(q=>q.id));return `<div><a href="#chapter/${ch.id}">${esc(tx(ch.title))}</a><b>${cc.independent} / ${cc.first}</b></div>`;}).join('')}</div><div class="parent-actions"><button class="secondary" data-action="review">${t('review')}</button><a class="quiet" href="#home">${t('contents')}</a></div></section>`;
 }
 function englishTestStatistics(){return `<div class="subject-stat-grid english-test-statistics">${[['vocabulary','assessmentTests','#english/quiz'],['grammar','assessmentGrammar','#english/grammar']].map(([kind,label,href])=>{const r=state.english.results[kind];return `<section class="panel"><h2>${t(label)}</h2><p>${t('completedTests')}: <b>${r.attempts}</b></p><p class="helper">${r.last?t('lastTestScore',{n:r.last.score,total:r.last.total}):t('noTestsYet')}</p><a class="secondary" href="${href}">${t(label)} →</a></section>`;}).join('')}</div><p class="small-note">${t('testResultsNote')}</p>`;}
 function englishStatistics(){
@@ -376,7 +378,8 @@ function paintUpdates(){
 function updatesView(){profileView();}
 
 const english=window.ValeEnglish.create({shell,lang,getState:()=>state.english,saveState:next=>{const old=state.english;state.english=next;if(persist())return true;state.english=old;return false;},toast});
-function render(){const r=route();english.stopMedia();if(r[0]==='updates')updatesView();else if(r[0]==='math'&&r[1]==='area')areaView();else if(r[0]==='english')english.render(r.slice(1));else if(r[0]==='task')taskView(r[1]);else if(r[0]==='chapter')chapterView(r[1],r[2]);else if(r[0]==='stats'||r[0]==='parent')statisticsView(r[1]);else if(r[0]==='rules')areaView();else if(r[0]==='install')installView();else if(r[0]==='profile')profileView();else if(r[0]==='summary')summary();else home();}
+const mathTest=window.ValeMathTestUI?.create({shell,lang,chapter,mathNav,tabs:chapterTabs,parse:CORE.parseInteger,getState:()=>state.mathTests,saveState:next=>{const old=state.mathTests;state.mathTests=next;if(persist())return true;state.mathTests=old;return false;}});
+function render(){const r=route();english.stopMedia();if(r[0]==='updates')updatesView();else if(r[0]==='math'&&r[1]==='area')areaView();else if(r[0]==='english')english.render(r.slice(1));else if(r[0]==='task')taskView(r[1]);else if(r[0]==='chapter'&&r[2]==='test'&&mathTest)mathTest.render(r[1],r[3],r[4]);else if(r[0]==='chapter')chapterView(r[1],r[2]);else if(r[0]==='stats'||r[0]==='parent')statisticsView(r[1]);else if(r[0]==='rules')areaView();else if(r[0]==='install')installView();else if(r[0]==='profile')profileView();else if(r[0]==='summary')summary();else home();}
 
 function currentTask(){const r=route();return r[0]==='task'?taskById(r[1]):null;}
 function submit(){
@@ -404,8 +407,9 @@ function openSource(p){
  $('#source-content').innerHTML=`<p>${t('sourceDescription',{p})}</p><img src="${esc(window.VALE_ASSET_DATA?.[source]||source)}" alt="${esc(t('pages',{p:Number(p)%2?`${Number(p)-1}–${p}`:`${p}–${Number(p)+1}`}))}">`;
  $('#source-dialog').showModal();
 }
-document.addEventListener('submit',e=>{if(e.target.id==='answer-form'){e.preventDefault();submit();}});
+document.addEventListener('submit',e=>{if(['math-test-start','math-test-answer-form','math-test-correction'].includes(e.target.id)){e.preventDefault();mathTest?.handleSubmit(e.target);return;}if(e.target.id==='answer-form'){e.preventDefault();submit();}});
 document.addEventListener('input',e=>{
+ if(mathTest?.handleInput(e.target))return;
  const q=currentTask();if(!q)return;const r=record(q.id);
  if(e.target.matches('[data-field],[data-measure]')){
   const idx=Number(e.target.dataset.field??e.target.dataset.measure);r.draft.values||=[];r.draft.values[idx]=e.target.value;
@@ -424,6 +428,7 @@ document.addEventListener('click',async e=>{
  const locale=e.target.closest('[data-lang]');if(locale){state.locale=locale.dataset.lang;persist();render();toast(t('langSaved'));return;}
  const open=e.target.closest('[data-open-task]');if(open){e.preventDefault();const q=taskById(open.dataset.openTask);start(q.chapter,false,q.id);return;}
  const el=e.target.closest('[data-action]');if(!el)return;
+ if(mathTest?.handleClick(el))return;
  if(english.handleClick(el))return;
  const action=el.dataset.action,q=currentTask(),r=q?record(q.id):null;
 

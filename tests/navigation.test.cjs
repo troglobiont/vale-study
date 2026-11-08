@@ -1,4 +1,5 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const M=require('../math-test-core.js');
 const B=require('../book.json'),E=require('../english-core.js'),D=require('../english-data.js');
 const cases=[];const test=(name,fn)=>cases.push([name,fn]);
 const now=1700000000000;
@@ -6,10 +7,12 @@ function setup(hash='home',data={}){
  const initial={schemaVersion:1,locale:'ru',size:8,large:false,records:{},session:null,english:E.fresh(),...data};
  const saved=new Map([['vale-study-book-v02',JSON.stringify(initial)]]),events={},app={innerHTML:''},dummy={setAttribute(){},classList:{toggle(){}},style:{}},location={hash:'#'+hash,href:'http://localhost/#'+hash,protocol:'file:'};
  const document={documentElement:{},body:dummy,querySelector:q=>q==='#app'?app:dummy,querySelectorAll:()=>[],addEventListener:(name,fn)=>{(events['document:'+name]||=[]).push(fn);}};
- const window={VALE_BOOK:B,VALE_ENGLISH:D,ValeCore:require('../core.js'),ValeEnglishCore:E,ValeAvatar:{read:()=>''},ValeEnglish:{create:()=>({stopMedia(){},handleClick(){return false;}})},ValeUpdates:{create:()=>({state:()=>({status:'idle'}),inspect(){}})},addEventListener:(name,fn)=>{(events[name]||=[]).push(fn);},scrollTo(){}};
- vm.runInNewContext(fs.readFileSync(__dirname+'/../app.js','utf8'),{window,document,location,localStorage:{getItem:k=>saved.get(k),setItem:(k,v)=>saved.set(k,v)},navigator:{onLine:true},matchMedia:()=>({matches:false}),URL,setTimeout,clearTimeout,console});
+ const window={VALE_BOOK:B,VALE_ENGLISH:D,ValeMathTestCore:M,ValeCore:require('../core.js'),ValeEnglishCore:E,ValeAvatar:{read:()=>''},ValeEnglish:{create:()=>({stopMedia(){},handleClick(){return false;}})},ValeUpdates:{create:()=>({state:()=>({status:'idle'}),inspect(){}})},addEventListener:(name,fn)=>{(events[name]||=[]).push(fn);},scrollTo(){}};
+ const context=vm.createContext({window,document,location,localStorage:{getItem:k=>saved.get(k),setItem:(k,v)=>saved.set(k,v)},navigator:{onLine:true},matchMedia:()=>({matches:false}),URL,setTimeout,clearTimeout,console});
+ vm.runInContext(fs.readFileSync(__dirname+'/../math-test-ui.js','utf8'),context);
+ vm.runInContext(fs.readFileSync(__dirname+'/../app.js','utf8'),context);
  const go=route=>{location.hash='#'+route;for(const fn of events.hashchange)fn();};
- const click=action=>{const element={dataset:{action}};for(const fn of events['document:click']||[])fn({target:{closest:selector=>selector==='[data-action]'?element:null}});};
+ const click=(action,dataset={})=>{const element={dataset:{action,...dataset}};for(const fn of events['document:click']||[])fn({target:{closest:selector=>selector==='[data-action]'?element:null}});};
  return {html:()=>app.innerHTML,go,click,location,events,saved,state:()=>JSON.parse(saved.get('vale-study-book-v02'))};
 }
 test('mathematics shows every section even with a paused task',()=>{
@@ -57,6 +60,15 @@ test('legacy topic and rules routes lead to the complete topic contents',()=>{
 });
 test('subject navigation and settings are translated in all three languages',()=>{
  for(const [locale,statistics,profile]of [['ru','Статистика','Профиль и настройки'],['sr','Статистика','Профил и подешавања'],['en','Statistics','Profile and settings']]){const a=setup('profile',{locale});assert(a.html().includes(statistics));assert(a.html().includes(profile));assert(!a.html().includes('For a parent'));assert(!a.html().includes('Для родителя'));}
+});
+test('extra test input and grading preserve both textbook and English sessions',()=>{
+ const q=B.tasks[0],textbook={ids:[q.id],index:0,ended:false},english=E.fresh();english.session={ids:[D.words[0].id],index:0,revealed:true,scope:'1'};
+ let mathTests=M.begin(M.fresh(),'small',8,99,now);for(let i=0;i<8;i++)mathTests=M.saveAnswer(mathTests,mathTests.session.id,i,mathTests.session.questions[i].answer);
+ const records={[q.id]:{draft:{values:['123']},attempts:0}},a=setup('chapter/small/test/run',{session:textbook,english,records,mathTests});
+ assert(a.html().includes('Правильность пока не проверяется.')||a.html().includes('Правильность ответов'));
+ const input={matches:selector=>selector==='[data-math-test-input]',dataset:{session:mathTests.session.id},value:'999'};for(const fn of a.events['document:input'])fn({target:input});
+ a.click('math-test-move',{session:mathTests.session.id,index:'8'});a.click('math-test-grade',{session:mathTests.session.id});
+ assert.equal(a.state().mathTests.totals.attempts,1);assert.equal(a.state().mathTests.session.first.score,7);assert.deepEqual(a.state().session,textbook);assert.deepEqual(a.state().english,english);assert.deepEqual(a.state().records,records);
 });
 for(const [name,fn]of cases){try{fn();}catch(error){throw Error(name,{cause:error});}}
 console.log(JSON.stringify({status:'PASS',navigationTests:cases.length}));

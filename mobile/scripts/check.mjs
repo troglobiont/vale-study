@@ -8,7 +8,7 @@ const html=await readFile(new URL('../www/index.html',import.meta.url),'utf8');
 assert(html.indexOf('native.js')<html.indexOf('app.js'));
 assert(!html.includes('rel="manifest"'));
 await access(new URL('../www/avatar.js',import.meta.url));
-for(const file of ['english-practice.js','english-practice-ui.js','english-data.js','english-core.js','english.js','updates.js'])await access(new URL('../www/'+file,import.meta.url));
+for(const file of ['math-test-core.js','math-test-ui.js','english-practice.js','english-practice-ui.js','english-data.js','english-core.js','english.js','updates.js'])await access(new URL('../www/'+file,import.meta.url));
 const book=JSON.parse(await readFile(new URL('../www/book.json',import.meta.url)));
 assert.equal(book.tasks.length,151);
 assert.equal(config.plugins.CapacitorUpdater.autoUpdate,'off');
