@@ -1,7 +1,7 @@
 (() => {
 'use strict';
 const BOOK=window.VALE_BOOK, CORE=window.ValeCore, AVATAR=window.ValeAvatar, STORE='vale-study-book-v02';
-const APP_VERSION='0.13.1';
+const APP_VERSION='0.14.0';
 const NATIVE=window.VALE_NATIVE===true;
 const ANDROID_APK='https://github.com/troglobiont/vale-study/releases/latest/download/Vale-Study-Android.apk';
 const LANGS=['ru','sr','en'];
@@ -150,13 +150,14 @@ const S={
 };
 let broken=null,saveError=false,avatar='',avatarBusy=false,avatarError='';
 try{avatar=AVATAR.read(localStorage);}catch{}
-const fresh=()=>({schemaVersion:1,locale:'ru',size:8,large:false,records:{},session:null,english:window.ValeEnglishCore.fresh(),mathTests:window.ValeMathTestCore?.fresh(),garden:window.ValeGardenCore?.fresh(),nature:window.ValeNatureCore?.fresh()});
+const fresh=()=>({schemaVersion:1,locale:'ru',size:8,large:false,records:{},session:null,english:window.ValeEnglishCore.fresh(),mathTests:window.ValeMathTestCore?.fresh(),garden:window.ValeGardenCore?.fresh(),nature:window.ValeNatureCore?.fresh(),expedition:window.ValeExpeditionCore?.fresh()});
 let state=fresh();
 try{const raw=localStorage.getItem(STORE);if(raw){const parsed=JSON.parse(raw);if(parsed.schemaVersion!==1||!parsed.records||!LANGS.includes(parsed.locale)||typeof parsed.records!=='object')throw Error();state={...fresh(),...parsed};}}catch(e){try{broken=localStorage.getItem(STORE)||'unavailable';}catch{broken='unavailable';}}
 state.english=window.ValeEnglishCore.normalise(state.english);
 if(window.ValeMathTestCore)state.mathTests=window.ValeMathTestCore.normalise(state.mathTests);
 if(window.ValeGardenCore)state.garden=window.ValeGardenCore.normalise(state.garden,window.ValeMathTestCore.collection(state.mathTests));
 if(window.ValeNatureCore)state.nature=window.ValeNatureCore.normalise(state.nature,window.VALE_NATURE);
+if(window.ValeExpeditionCore)state.expedition=window.ValeExpeditionCore.normalise(state.expedition);
 let feedback={},ruleOpen=false,scratchOpen=false,waitingWorker=null,registration=null,canvasObserver=null,installPrompt=null,installedNow=false,offlineReady=false;
 const $=q=>document.querySelector(q),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const lang=()=>LANGS.includes(state.locale)?state.locale:'ru';
@@ -185,7 +186,7 @@ function counts(ids=BOOK.tasks.map(x=>x.id)){
  measurement:rows.filter(x=>x.task?.type==='measurement'&&x.r.measureChecked).length};
 }
 function titleNum(q){return q.number.startsWith('w')?t('warm',{n:q.number.slice(1)}):q.number==='intro'?t('intro'):q.number==='think'?t('think'):t('taskNum',{n:q.number});}
-const SUBJECTS=[{id:'math',active:'book',label:'mathematics',href:'#home',overview:mathOverview,detail:mathStatistics},{id:'english',active:'english',label:'english',href:'#english',overview:englishOverview,detail:englishStatistics},{id:'nature',active:'nature',label:'nature',href:'#nature',overview:()=>nature?.overview()||{caption:'Моја домовина',headline:'',metrics:[],linkLabel:'contents'},detail:()=>nature?.statistics()||''}];
+const SUBJECTS=[{id:'math',active:'book',label:'mathematics',href:'#home',overview:mathOverview,detail:mathStatistics},{id:'english',active:'english',label:'english',href:'#english',overview:englishOverview,detail:englishStatistics},{id:'nature',active:'nature',label:'nature',href:'#nature',overview:()=>nature?.overview()||{caption:'Моја домовина',headline:'',metrics:[],linkLabel:'contents'},detail:()=>(nature?.statistics()||'')+(expedition?.statistics()||'')}];
 function shell(content,active='book'){
  canvasObserver?.disconnect();
  const total=counts();
@@ -384,8 +385,9 @@ function updatesView(){profileView();}
 const english=window.ValeEnglish.create({shell,lang,getState:()=>state.english,saveState:next=>{const old=state.english;state.english=next;if(persist())return true;state.english=old;return false;},toast});
 const mathTest=window.ValeMathTestUI?.create({shell,lang,chapter,mathNav,tabs:chapterTabs,parse:CORE.parseInteger,getState:()=>state.mathTests,saveState:next=>{const old=state.mathTests;state.mathTests=next;if(persist())return true;state.mathTests=old;return false;}});
 const nature=window.ValeNatureUI?.create({shell,lang,getState:()=>state.nature,saveState:next=>{const old=state.nature;state.nature=next;if(persist())return true;state.nature=old;return false;},toast});
-const garden=window.ValeGardenUI?.create({shell,lang,getState:()=>state.garden,getCrystals:()=>window.ValeMathTestCore.collection(state.mathTests),saveState:next=>{const old=state.garden;state.garden=next;if(persist())return true;state.garden=old;return false;}});
-function render(){const r=route();english.stopMedia();nature?.cleanup();if(r[0]==='nature'&&nature)nature.render(r.slice(1));else if(r[0]==='garden'&&garden)garden.render();else if(r[0]==='updates')updatesView();else if(r[0]==='math'&&r[1]==='area')areaView();else if(r[0]==='english')english.render(r.slice(1));else if(r[0]==='task')taskView(r[1]);else if(r[0]==='chapter'&&r[2]==='test'&&mathTest)mathTest.render(r[1],r[3],r[4]);else if(r[0]==='chapter')chapterView(r[1],r[2]);else if(r[0]==='stats'||r[0]==='parent')statisticsView(r[1]);else if(r[0]==='rules')areaView();else if(r[0]==='install')installView();else if(r[0]==='profile')profileView();else if(r[0]==='summary')summary();else home();}
+const expedition=window.ValeExpeditionUI?.create({shell,lang,getState:()=>state.expedition,getNature:()=>state.nature,save:(next,natureState)=>{const oldExp=state.expedition,oldNature=state.nature;state.expedition=next;state.nature=natureState;if(persist())return true;state.expedition=oldExp;state.nature=oldNature;return false;},renderGarden:()=>garden?.render(),toast});
+const garden=window.ValeGardenUI?.create({shell,lang,getState:()=>state.garden,getCrystals:()=>window.ValeMathTestCore.collection(state.mathTests),expeditionShelf:()=>expedition?.shelfHTML()||'',saveState:next=>{const old=state.garden;state.garden=next;if(persist())return true;state.garden=old;return false;}});
+function render(){const r=route();english.stopMedia();expedition?.cleanup();nature?.cleanup();if(r[0]==='nature'&&r[1]==='expedition'&&expedition)expedition.render(r.slice(2));else if(r[0]==='nature'&&nature)nature.render(r.slice(1));else if(r[0]==='garden'&&garden)garden.render();else if(r[0]==='updates')updatesView();else if(r[0]==='math'&&r[1]==='area')areaView();else if(r[0]==='english')english.render(r.slice(1));else if(r[0]==='task')taskView(r[1]);else if(r[0]==='chapter'&&r[2]==='test'&&mathTest)mathTest.render(r[1],r[3],r[4]);else if(r[0]==='chapter')chapterView(r[1],r[2]);else if(r[0]==='stats'||r[0]==='parent')statisticsView(r[1]);else if(r[0]==='rules')areaView();else if(r[0]==='install')installView();else if(r[0]==='profile')profileView();else if(r[0]==='summary')summary();else home();}
 
 function currentTask(){const r=route();return r[0]==='task'?taskById(r[1]):null;}
 function submit(){
@@ -413,8 +415,9 @@ function openSource(p){
  $('#source-content').innerHTML=`<p>${t('sourceDescription',{p})}</p><img src="${esc(window.VALE_ASSET_DATA?.[source]||source)}" alt="${esc(t('pages',{p:Number(p)%2?`${Number(p)-1}–${p}`:`${p}–${Number(p)+1}`}))}">`;
  $('#source-dialog').showModal();
 }
-document.addEventListener('submit',e=>{if(e.target.id==='nature-answer-form'){e.preventDefault();nature?.handleSubmit(e.target);return;}if(['math-test-start','math-test-answer-form','math-test-correction'].includes(e.target.id)){e.preventDefault();mathTest?.handleSubmit(e.target);return;}if(e.target.id==='answer-form'){e.preventDefault();submit();}});
+document.addEventListener('submit',e=>{if(expedition?.handleSubmit(e.target)){e.preventDefault();return;}if(e.target.id==='nature-answer-form'){e.preventDefault();nature?.handleSubmit(e.target);return;}if(['math-test-start','math-test-answer-form','math-test-correction'].includes(e.target.id)){e.preventDefault();mathTest?.handleSubmit(e.target);return;}if(e.target.id==='answer-form'){e.preventDefault();submit();}});
 document.addEventListener('input',e=>{
+ if(expedition?.handleInput(e.target))return;
  if(nature?.handleInput(e.target))return;
  if(mathTest?.handleInput(e.target))return;
  const q=currentTask();if(!q)return;const r=record(q.id);
@@ -424,6 +427,7 @@ document.addEventListener('input',e=>{
  }
 });
 document.addEventListener('change',async e=>{
+ if(expedition?.handleChange(e.target))return;
  if(nature?.handleChange(e.target))return;
  if(await nature?.handlePhoto(e.target))return;
  if(e.target.id==='avatar-file'){const file=e.target.files?.[0];if(file)await chooseAvatar(file);return;}
@@ -432,11 +436,12 @@ document.addEventListener('change',async e=>{
 });
 document.addEventListener('submit',e=>{if(['english-add-form','english-quiz-form'].includes(e.target.id)){e.preventDefault();english.handleSubmit(e.target);}});
 document.addEventListener('input',e=>{if(e.target.id==='english-search')english.search(e.target.value);});
-document.addEventListener('visibilitychange',()=>{if(document.hidden)english.stopMedia();});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){english.stopMedia();expedition?.cleanup();}});
 document.addEventListener('click',async e=>{
  const locale=e.target.closest('[data-lang]');if(locale){state.locale=locale.dataset.lang;persist();render();toast(t('langSaved'));return;}
  const open=e.target.closest('[data-open-task]');if(open){e.preventDefault();const q=taskById(open.dataset.openTask);start(q.chapter,false,q.id);return;}
  const el=e.target.closest('[data-action]');if(!el)return;
+ if(expedition?.handleClick(el))return;
  if(nature?.handleClick(el))return;
  if(garden?.handleClick(el))return;
  if(mathTest?.handleClick(el))return;
