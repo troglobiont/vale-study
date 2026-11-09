@@ -7,10 +7,11 @@ function setup(hash='home',data={}){
  const initial={schemaVersion:1,locale:'ru',size:8,large:false,records:{},session:null,english:E.fresh(),...data};
  const saved=new Map([['vale-study-book-v02',JSON.stringify(initial)]]),events={},app={innerHTML:''},dummy={setAttribute(){},classList:{toggle(){}},style:{}},location={hash:'#'+hash,href:'http://localhost/#'+hash,protocol:'file:'};
  const document={documentElement:{},body:dummy,querySelector:q=>q==='#app'?app:dummy,querySelectorAll:()=>[],addEventListener:(name,fn)=>{(events['document:'+name]||=[]).push(fn);}};
- const window={ValeGardenCore:G,VALE_BOOK:B,VALE_ENGLISH:D,ValeMathTestCore:M,ValeCore:require('../core.js'),ValeEnglishCore:E,ValeAvatar:{read:()=>''},ValeEnglish:{create:()=>({stopMedia(){},handleClick(){return false;}})},ValeUpdates:{create:()=>({state:()=>({status:'idle'}),inspect(){}})},addEventListener:(name,fn)=>{(events[name]||=[]).push(fn);},scrollTo(){}};
+ const window={VALE_NATURE:require('../nature-data.js'),ValeNatureCore:require('../nature-core.js'),ValeGardenCore:G,VALE_BOOK:B,VALE_ENGLISH:D,ValeMathTestCore:M,ValeCore:require('../core.js'),ValeEnglishCore:E,ValeAvatar:{read:()=>''},ValeEnglish:{create:()=>({stopMedia(){},handleClick(){return false;}})},ValeUpdates:{create:()=>({state:()=>({status:'idle'}),inspect(){}})},addEventListener:(name,fn)=>{(events[name]||=[]).push(fn);},scrollTo(){}};
  const context=vm.createContext({window,document,location,localStorage:{getItem:k=>saved.get(k),setItem:(k,v)=>saved.set(k,v)},navigator:{onLine:true},matchMedia:()=>({matches:false}),URL,setTimeout,clearTimeout,console});
  vm.runInContext(fs.readFileSync(__dirname+'/../math-test-ui.js','utf8'),context);
  vm.runInContext(fs.readFileSync(__dirname+'/../garden-ui.js','utf8'),context);
+ vm.runInContext(fs.readFileSync(__dirname+'/../nature-ui.js','utf8'),context);
  vm.runInContext(fs.readFileSync(__dirname+'/../app.js','utf8'),context);
  const go=route=>{location.hash='#'+route;for(const fn of events.hashchange)fn();};
  const click=(action,dataset={})=>{const element={dataset:{action,...dataset}};for(const fn of events['document:click']||[])fn({target:{closest:selector=>selector==='[data-action]'?element:null}});};
@@ -80,5 +81,7 @@ test('garden is separate from academic statistics and preserves lessons and earn
 test('legacy saved study state gains a garden without losing maths or English data',()=>{
  const english=E.fresh();english.session={ids:[D.words[0].id],index:0,revealed:true,scope:'1'};const a=setup('garden',{english});a.go('profile');for(const fn of a.events.pagehide)fn();assert.deepEqual(a.state().garden,G.fresh());assert.deepEqual(a.state().english,english);
 });
+test('nature is the third academic subject with all content visible',()=>{const a=setup('nature');assert(a.html().includes('Природа и общество'));assert.equal((a.html().match(/class="chapter"/g)||[]).length,19);assert(a.html().includes('href="#nature/topic/t50"'));a.go('stats');assert(a.html().includes('data-stat-subject="nature"'));a.go('stats/nature');assert(a.html().includes('Проверено верно'));assert(a.html().includes('Отмечено выполненным'));});
+test('new nature drafts and its statistics preserve other subjects and export payload',()=>{const N=require('../nature-core.js'),D=require('../nature-data.js'),q=D.tasks.find(q=>q.id==='p29-5');let nature=N.draft(N.fresh(),q,'f0','Мој одговор');nature=N.submit(nature,q).state;const english=E.fresh(),records={old:{draft:{values:['99']}}},session={ids:[B.tasks[0].id],index:0,ended:false};const a=setup('nature/task/p29-5',{nature,english,records,session});a.click('nature-complete');assert.equal(a.state().nature.records[q.id].completed,'self');a.go('stats/nature');assert.deepEqual(a.state().records,records);assert.deepEqual(a.state().english,english);assert.deepEqual(a.state().session,session);a.go('home');a.go('nature/task/p29-5');assert(a.html().includes('Мој одговор'));});
 for(const [name,fn]of cases){try{fn();}catch(error){throw Error(name,{cause:error});}}
 console.log(JSON.stringify({status:'PASS',navigationTests:cases.length}));

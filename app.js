@@ -1,11 +1,12 @@
 (() => {
 'use strict';
 const BOOK=window.VALE_BOOK, CORE=window.ValeCore, AVATAR=window.ValeAvatar, STORE='vale-study-book-v02';
-const APP_VERSION='0.12.0';
+const APP_VERSION='0.13.0';
 const NATIVE=window.VALE_NATIVE===true;
 const ANDROID_APK='https://github.com/troglobiont/vale-study/releases/latest/download/Vale-Study-Android.apk';
 const LANGS=['ru','sr','en'];
 const S={
+ nature:['Природа и общество','Природа и друштво','Nature and society'],natureStarted:['Начато карточек','Започете картице','Cards started'],natureTotal:['Всего карточек','Укупно картица','Total cards'],
  assessmentTests:["Тесты на слова", "Тестови речи", "Word tests"],
  assessmentGrammar:["Грамматика", "Граматика", "Grammar checks"],
  completedTests:["Завершено тестов", "Завршени тестови", "Completed tests"],
@@ -23,7 +24,7 @@ const S={
  sectionNavigation:["Навигация по разделу", "Навигација кроз део", "Section navigation"],
  subjectNavigation:["Учебные предметы", "Школски предмети", "Subjects"],
  mathNavigation:["Содержание математики", "Садржај математике", "Mathematics contents"],
- statisticsIntro:["Результаты по каждому предмету. Задания по математике и повторения слов учитываются отдельно.", "Резултати по предметима. Математички задаци и понављања речи бележе се одвојено.", "Progress by subject. Maths exercises and vocabulary reviews are counted separately."],
+ statisticsIntro:["Результаты по каждому предмету. Автопроверка, повторения и отметки выполнения учитываются отдельно.", "Резултати по предметима. Аутоматске провере, понављања и потврде рада бележе се одвојено.", "Progress by subject. Automatic checks, reviews and completion marks are counted separately."],
  allStatistics:["Все предметы", "Сви предмети", "All subjects"],
  details:["Подробнее", "Детаљније", "Details"],
  mathProgress:["Решено {n} из {total} заданий", "Решено {n} од {total} задатака", "Solved {n} of {total} exercises"],
@@ -149,12 +150,13 @@ const S={
 };
 let broken=null,saveError=false,avatar='',avatarBusy=false,avatarError='';
 try{avatar=AVATAR.read(localStorage);}catch{}
-const fresh=()=>({schemaVersion:1,locale:'ru',size:8,large:false,records:{},session:null,english:window.ValeEnglishCore.fresh(),mathTests:window.ValeMathTestCore?.fresh(),garden:window.ValeGardenCore?.fresh()});
+const fresh=()=>({schemaVersion:1,locale:'ru',size:8,large:false,records:{},session:null,english:window.ValeEnglishCore.fresh(),mathTests:window.ValeMathTestCore?.fresh(),garden:window.ValeGardenCore?.fresh(),nature:window.ValeNatureCore?.fresh()});
 let state=fresh();
 try{const raw=localStorage.getItem(STORE);if(raw){const parsed=JSON.parse(raw);if(parsed.schemaVersion!==1||!parsed.records||!LANGS.includes(parsed.locale)||typeof parsed.records!=='object')throw Error();state={...fresh(),...parsed};}}catch(e){try{broken=localStorage.getItem(STORE)||'unavailable';}catch{broken='unavailable';}}
 state.english=window.ValeEnglishCore.normalise(state.english);
 if(window.ValeMathTestCore)state.mathTests=window.ValeMathTestCore.normalise(state.mathTests);
 if(window.ValeGardenCore)state.garden=window.ValeGardenCore.normalise(state.garden,window.ValeMathTestCore.collection(state.mathTests));
+if(window.ValeNatureCore)state.nature=window.ValeNatureCore.normalise(state.nature,window.VALE_NATURE);
 let feedback={},ruleOpen=false,scratchOpen=false,waitingWorker=null,registration=null,canvasObserver=null,installPrompt=null,installedNow=false,offlineReady=false;
 const $=q=>document.querySelector(q),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const lang=()=>LANGS.includes(state.locale)?state.locale:'ru';
@@ -183,12 +185,12 @@ function counts(ids=BOOK.tasks.map(x=>x.id)){
  measurement:rows.filter(x=>x.task?.type==='measurement'&&x.r.measureChecked).length};
 }
 function titleNum(q){return q.number.startsWith('w')?t('warm',{n:q.number.slice(1)}):q.number==='intro'?t('intro'):q.number==='think'?t('think'):t('taskNum',{n:q.number});}
-const SUBJECTS=[{id:'math',active:'book',label:'mathematics',href:'#home',overview:mathOverview,detail:mathStatistics},{id:'english',active:'english',label:'english',href:'#english',overview:englishOverview,detail:englishStatistics}];
+const SUBJECTS=[{id:'math',active:'book',label:'mathematics',href:'#home',overview:mathOverview,detail:mathStatistics},{id:'english',active:'english',label:'english',href:'#english',overview:englishOverview,detail:englishStatistics},{id:'nature',active:'nature',label:'nature',href:'#nature',overview:()=>nature?.overview()||{caption:'Моја домовина',headline:'',metrics:[],linkLabel:'contents'},detail:()=>nature?.statistics()||''}];
 function shell(content,active='book'){
  canvasObserver?.disconnect();
  const total=counts();
  document.documentElement.lang=lang()==='sr'?'sr-Cyrl':lang();
- document.title=`Valja Study · ${active==='garden'?t('garden'):active==='parent'?t('parent'):active==='profile'?t('profile'):active==='english'?t('english'):t('mathematics')}`;
+ document.title=`Valja Study · ${active==='nature'?t('nature'):active==='garden'?t('garden'):active==='parent'?t('parent'):active==='profile'?t('profile'):active==='english'?t('english'):t('mathematics')}`;
  document.body.classList.toggle('large-text',!!state.large);
  $('#app').innerHTML=`<a class="skip" href="#main-content">${t('skip')}</a><div class="shell"><header class="topbar"><a href="#home" class="brand" aria-label="Valja Study"><span class="brand-icon" aria-hidden="true">▦</span><span>Valja Study<small>${t('tagline')}</small></span></a><div class="head-actions"><div class="lang" role="group" aria-label="Русский / Српски / English">${LANGS.map((l,i)=>`<button data-lang="${l}" lang="${l==='sr'?'sr-Cyrl':l}" title="${['Русский','Српски','English'][i]}" aria-label="${['Русский','Српски','English'][i]}" class="${lang()===l?'active':''}" aria-pressed="${lang()===l}">${['ру','ср','en'][i]}</button>`).join('')}</div><a href="#profile" class="header-avatar" aria-label="${t('profile')}" title="${t('profile')}">${avatarImage(true)}</a></div></header><nav class="top-tabs" aria-label="${t('subjectNavigation')}">${SUBJECTS.map(subject=>`<a class="${active===subject.active?'active':''}" ${active===subject.active?'aria-current="page"':''} href="${subject.href}">${t(subject.label)}</a>`).join('')}<a class="${active==='garden'?'active':''}" ${active==='garden'?'aria-current="page"':''} href="#garden">${t('garden')}</a><a class="${active==='parent'?'active':''}" ${active==='parent'?'aria-current="page"':''} href="#stats">${t('parent')}</a><div class="right offline-chip"><span class="dot"></span>${t('localShort')}</div></nav>${broken?`<div class="save-warning" role="alert">${t('corrupt')}</div>`:saveError?`<div class="save-warning" role="alert">${t('saveFail')}</div>`:''}<div class="update-box" data-update-banner hidden><span data-update-status></span><button class="secondary" data-action="update">${t('updateNow')}</button></div><main id="main-content" class="main" tabindex="-1">${content}</main><footer><span>Valja Study · ${t('version',{v:APP_VERSION})} · ${active==='english'?'Smiles 4':active==='book'?t('pages',{p:BOOK.sourcePages}):t('localShort')}</span><span><a class="install-link" href="#install">${t('install')}</a> · ${t('local')} · <button data-action="update">${t('updateNow')}</button></span></footer></div>`;
  $('#close-source').setAttribute('aria-label',t('close'));
@@ -381,8 +383,9 @@ function updatesView(){profileView();}
 
 const english=window.ValeEnglish.create({shell,lang,getState:()=>state.english,saveState:next=>{const old=state.english;state.english=next;if(persist())return true;state.english=old;return false;},toast});
 const mathTest=window.ValeMathTestUI?.create({shell,lang,chapter,mathNav,tabs:chapterTabs,parse:CORE.parseInteger,getState:()=>state.mathTests,saveState:next=>{const old=state.mathTests;state.mathTests=next;if(persist())return true;state.mathTests=old;return false;}});
+const nature=window.ValeNatureUI?.create({shell,lang,getState:()=>state.nature,saveState:next=>{const old=state.nature;state.nature=next;if(persist())return true;state.nature=old;return false;},toast});
 const garden=window.ValeGardenUI?.create({shell,lang,getState:()=>state.garden,getCrystals:()=>window.ValeMathTestCore.collection(state.mathTests),saveState:next=>{const old=state.garden;state.garden=next;if(persist())return true;state.garden=old;return false;}});
-function render(){const r=route();english.stopMedia();if(r[0]==='garden'&&garden)garden.render();else if(r[0]==='updates')updatesView();else if(r[0]==='math'&&r[1]==='area')areaView();else if(r[0]==='english')english.render(r.slice(1));else if(r[0]==='task')taskView(r[1]);else if(r[0]==='chapter'&&r[2]==='test'&&mathTest)mathTest.render(r[1],r[3],r[4]);else if(r[0]==='chapter')chapterView(r[1],r[2]);else if(r[0]==='stats'||r[0]==='parent')statisticsView(r[1]);else if(r[0]==='rules')areaView();else if(r[0]==='install')installView();else if(r[0]==='profile')profileView();else if(r[0]==='summary')summary();else home();}
+function render(){const r=route();english.stopMedia();nature?.cleanup();if(r[0]==='nature'&&nature)nature.render(r.slice(1));else if(r[0]==='garden'&&garden)garden.render();else if(r[0]==='updates')updatesView();else if(r[0]==='math'&&r[1]==='area')areaView();else if(r[0]==='english')english.render(r.slice(1));else if(r[0]==='task')taskView(r[1]);else if(r[0]==='chapter'&&r[2]==='test'&&mathTest)mathTest.render(r[1],r[3],r[4]);else if(r[0]==='chapter')chapterView(r[1],r[2]);else if(r[0]==='stats'||r[0]==='parent')statisticsView(r[1]);else if(r[0]==='rules')areaView();else if(r[0]==='install')installView();else if(r[0]==='profile')profileView();else if(r[0]==='summary')summary();else home();}
 
 function currentTask(){const r=route();return r[0]==='task'?taskById(r[1]):null;}
 function submit(){
@@ -410,8 +413,9 @@ function openSource(p){
  $('#source-content').innerHTML=`<p>${t('sourceDescription',{p})}</p><img src="${esc(window.VALE_ASSET_DATA?.[source]||source)}" alt="${esc(t('pages',{p:Number(p)%2?`${Number(p)-1}–${p}`:`${p}–${Number(p)+1}`}))}">`;
  $('#source-dialog').showModal();
 }
-document.addEventListener('submit',e=>{if(['math-test-start','math-test-answer-form','math-test-correction'].includes(e.target.id)){e.preventDefault();mathTest?.handleSubmit(e.target);return;}if(e.target.id==='answer-form'){e.preventDefault();submit();}});
+document.addEventListener('submit',e=>{if(e.target.id==='nature-answer-form'){e.preventDefault();nature?.handleSubmit(e.target);return;}if(['math-test-start','math-test-answer-form','math-test-correction'].includes(e.target.id)){e.preventDefault();mathTest?.handleSubmit(e.target);return;}if(e.target.id==='answer-form'){e.preventDefault();submit();}});
 document.addEventListener('input',e=>{
+ if(nature?.handleInput(e.target))return;
  if(mathTest?.handleInput(e.target))return;
  const q=currentTask();if(!q)return;const r=record(q.id);
  if(e.target.matches('[data-field],[data-measure]')){
@@ -420,6 +424,8 @@ document.addEventListener('input',e=>{
  }
 });
 document.addEventListener('change',async e=>{
+ if(nature?.handleChange(e.target))return;
+ if(await nature?.handlePhoto(e.target))return;
  if(e.target.id==='avatar-file'){const file=e.target.files?.[0];if(file)await chooseAvatar(file);return;}
  if(e.target.matches('[data-match]')){const q=currentTask(),r=record(q.id);r.draft.matches||=[];r.draft.matches[Number(e.target.dataset.match)]=e.target.value;delete feedback[q.id];persist();}
  if(e.target.matches('[data-setting]')){const key=e.target.dataset.setting;state[key]=key==='large'?e.target.value==='1':Number(e.target.value);persist();render();}
@@ -431,6 +437,7 @@ document.addEventListener('click',async e=>{
  const locale=e.target.closest('[data-lang]');if(locale){state.locale=locale.dataset.lang;persist();render();toast(t('langSaved'));return;}
  const open=e.target.closest('[data-open-task]');if(open){e.preventDefault();const q=taskById(open.dataset.openTask);start(q.chapter,false,q.id);return;}
  const el=e.target.closest('[data-action]');if(!el)return;
+ if(nature?.handleClick(el))return;
  if(garden?.handleClick(el))return;
  if(mathTest?.handleClick(el))return;
  if(english.handleClick(el))return;

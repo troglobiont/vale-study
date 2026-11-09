@@ -23,7 +23,7 @@ jobs:
       - name: Prepare app files
         run: |
           mkdir dist
-          cp index.html style.css app.js math-test-core.js math-test-ui.js garden-core.js garden-ui.js core.js avatar.js book.js book.json english-data.js english-practice.js english-practice-ui.js english-core.js english.js updates.js version.json sw.js manifest.webmanifest icon.svg icon-180.png icon-192.png icon-512.png .nojekyll dist/
+          cp index.html style.css app.js nature-data.js nature-core.js nature-ui.js math-test-core.js math-test-ui.js garden-core.js garden-ui.js core.js avatar.js book.js book.json english-data.js english-practice.js english-practice-ui.js english-core.js english.js updates.js version.json sw.js manifest.webmanifest icon.svg icon-180.png icon-192.png icon-512.png .nojekyll dist/
           cp -R assets dist/assets
           cp -R audio dist/audio
       - uses: actions/upload-pages-artifact@v3
