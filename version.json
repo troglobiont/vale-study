@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "appId": "io.github.troglobiont.valestudy",
-  "version": "0.14.0",
+  "version": "0.14.1",
   "nativeRuntime": 1,
   "minNativeVersion": "0.7.0",
   "bundle": {
-    "url": "https://github.com/troglobiont/vale-study/releases/download/v0.14.0/Vale-Study-update.zip",
-    "sha256": "478d97885cd56c16a85959ef68c8e9b809f86c20cc19e80a0954b91cef555924"
+    "url": "https://github.com/troglobiont/vale-study/releases/download/v0.14.1/Vale-Study-update.zip",
+    "sha256": "0597f7c68e33ce69fdeec99e2c0253f46467423d01018cd24c9790ab0b23ce6a"
   }
 }
