@@ -320,3 +320,140 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
  .exp-design-preview .exp-postcard-art{grid-row:1/3}.exp-design-preview .exp-postcard-title{align-self:end}
  .exp-design-preview .exp-postcard-caption{grid-column:2;align-self:start}.exp-design-preview .exp-mosaic-ribbon,.exp-design-preview .exp-wave-ribbon{grid-column:3;grid-row:1/3;margin:0}
 }
+
+/* Inventors catalog */
+.inventor-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 169px;
+  padding: 27px 34px;
+  border: 1px solid #bfdcf2;
+  border-radius: 23px;
+  background-color: #ebf6ff;
+  background-image: linear-gradient(#3c79b20d 1px, transparent 1px), linear-gradient(90deg, #3c79b20d 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+.inventor-hero h1, .inventor-view h1 {
+  margin: 0 0 8px;
+  color: #123d64;
+  font-size: clamp(28px, 5.4vw, 45px);
+  line-height: 1.08;
+  overflow-wrap: anywhere;
+}
+.inventor-hero p { margin: 0; max-width: 550px; color: #335e7e; }
+.inventor-hero-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 84px;
+  height: 84px;
+  border: 1px dashed #6ba8d6;
+  border-radius: 50%;
+  color: #155eae;
+  background: #f7fbff;
+  font-size: 48px;
+  line-height: 1;
+}
+.inventor-setup { margin: 18px 0 0; max-width: 640px; }
+.inventor-setup p { margin: 0 0 14px; }
+.inventor-import {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  cursor: pointer;
+}
+.inventor-import input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+.inventor-import:focus-within { outline: 3px solid #165ab2; outline-offset: 3px; }
+.inventor-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  margin: 20px 0 14px;
+}
+.inventor-toolbar input {
+  flex: 0 1 390px;
+  min-width: 0;
+  width: 100%;
+  min-height: 46px;
+  padding: 8px 14px;
+  border: 1px solid #b3cfe7;
+  border-radius: 11px;
+  background: white;
+  color: var(--ink);
+}
+.inventor-toolbar p { margin: 0; }
+.inventor-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.inventor-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 76px;
+  padding: 12px 13px;
+  border: 1px solid #c8def0;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 2px 8px #234c6610;
+}
+.inventor-card:hover { background: #f4faff; border-color: #84b8e0; }
+.inventor-card:focus-visible { outline: 3px solid #165ab2; outline-offset: 2px; }
+.inventor-category { min-height: 99px; }
+.inventor-mark {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  border-radius: 10px;
+  background: #e5f2ff;
+  color: #145186;
+  font-size: 15px;
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+}
+.inventor-category:nth-child(3n+2) .inventor-mark { background: #fff1d4; color: #694910; }
+.inventor-category:nth-child(3n) .inventor-mark { background: #dcf4ed; color: #195846; }
+.inventor-card-text { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.inventor-card-text strong, .inventor-card-text small { display: block; line-height: 1.3; }
+.inventor-card-text small { margin-top: 4px; color: #4c6278; font-size: 12px; }
+.inventor-arrow { color: #2369a1; font-size: 15px; }
+.inventor-empty { grid-column: 1 / -1; }
+.inventor-settings { margin-top: 22px; }
+.inventor-view { max-width: 850px; }
+.inventor-view-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.inventor-player {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin: 18px 0 0;
+  border: 0;
+  border-radius: 12px;
+  background: #edf4fb;
+}
+.inventor-document { height: min(70vh, 700px); }
+@media (max-width: 800px) {
+  .inventor-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 510px) {
+  .inventor-hero { min-height: 130px; padding: 21px 18px; gap: 9px; }
+  .inventor-hero p { font-size: 14px; }
+  .inventor-hero-icon { flex-basis: 46px; height: 46px; font-size: 29px; }
+  .inventor-grid { grid-template-columns: 1fr; gap: 8px; }
+  .inventor-category { min-height: 72px; }
+  .inventor-toolbar { margin-top: 15px; }
+  .inventor-view-actions { align-items: stretch; flex-direction: column; text-align: center; }
+}
